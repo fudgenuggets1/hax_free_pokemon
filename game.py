@@ -436,71 +436,71 @@ class Game():
 
 	@staticmethod
 	def best_switch():
-		switch = None
+		switch = 0
 		pokemon = Game.current_pokemon
 	 	opponent = Game.opponent.pokemon
+		TA1 = Game.type_advantage(Game.Opponent_Party[0], pokemon)
+		TA2 = Game.type_advantage(Game.Opponent_Party[1], pokemon)
+		TA3 = Game.type_advantage(Game.Opponent_Party[2], pokemon)
+		TA4 = Game.type_advantage(Game.Opponent_Party[3], pokemon)
+		choice1 = Game.Opponent_Party[0]
+		choice2 = Game.Opponent_Party[1]
+		choice3 = Game.Opponent_Party[2]
+		choice4 = Game.Opponent_Party[3]
 		potential_switches = []
-		best_switches = []
+		best_switches = [TA1, TA2, TA3, TA4]
 		for switch in Game.Opponent_Party:
 			if not isinstance(switch, int):
 				if switch.current_health > 0:
 					potential_switches.append(switch)
-		for potential in potential_switches:
-			for immune in potential.type.immune_list:
-				for no_effect in pokemon.type.no_effect_list:
-					if no_effect == immune:
-						best_switches.append(potential)
-						best_switches[0] = potential
-						break
-			for resist in potential.type.resist_list:
-				for strength in pokemon.type.not_effective_list:
-					if strength == resist:
-						best_switches.append(potential)
-						best_switches[0] = potential
-					else:
-						if pokemon.type2 != None and potential.type2 != None:
-							for resist2 in potential.type2.resist_list:
-								for strength2 in pokemon.type2.not_effective_list:
-									if strength == resist2 or strength2 == resist:
-										best_switches.append(potential)
-			for weakness in potential.type.weakness_list:
-				if pokemon.type.name == weakness:
-					potential_switches.remove(potential)
-					break
-				if pokemon.type2 != None:
-					if pokemon.type2.name == weakness:
-						potential_switches.remove(potential)
-			best_switches.append(potential)
-
-
 		super_effective_list = set(pokemon.type.super_effective_list)
 		not_effective_list = set(pokemon.type.not_effective_list)
 		no_effect_list = set(pokemon.type.no_effect_list)
-		switches = set(potential_switches)
-		if len(best_switches) > 1:
-			for best in best_switches:
-				for immune in best.type.immune_list:
-					if immune in no_effect_list:
-						best_switches[0] = best
-						break
-				for resist in best.type.resist_list:
-					if resist in not_effective_list:
-						best_switches[0] = best
-						break
-				if best not in switches:
-					best_switches.remove(best)
-				for weakness in best.type.weakness_list:
-					if weakness in super_effective_list:
-						best_switches.remove(best)
-				#best_switches.remove(best)
+		#switches = set(potential_switches)
 
-			switch = Game.Opponent_Party.index(best_switches[0])
-		if len(best_switches) < 1:
-			if len(potential_switches) > 0:
-				switch = Game.Opponent_Party.index(potential_switches[0])
-		else:
-			switch = Game.Opponent_Party.index(best_switches[0])
-		return switch
+		#TA1 = Game.type_advantage(Game.Opponent_Party[0], pokemon)
+		"""if len(potential_switches):
+			for switch in potential_switches:
+				for weakness in switch.type.weakness_list:
+					if switch.type2 != None:
+						for weakness2 in switch.type2.weakness_list:
+							if pokemon.type.name == weakness or pokemon.type.name == weakness2:
+								potential_switches.remove(switch)
+							if pokemon.type2 != None:
+								if pokemon.type2.name == weakness or pokemon.type2.name == weakness2:
+									potential_switches.remove(switch)
+					else:
+						if pokemon.type.name == weakness:
+							potential_switches.remove(switch)
+						if pokemon.type2 != None:
+							if pokemon.type2.name == weakness:
+								potential_switches.remove(switch)
+				TA = Game.type_advantage(switch, pokemon) * Game.type_advantage(pokemon, switch)
+				if TA > 1:
+					pass
+					#potential_switches.remove(switch)"""
+		switches = set(potential_switches)
+		while len(best_switches) > 1:
+
+			if best_switches[0] < best_switches[1]:
+				best_switches.remove(best_switches[1])
+			elif best_switches[0] > best_switches[1]:
+				best_switches.remove(best_switches[0])
+			else:
+				best_switches.remove(best_switches[1])
+			#if TA > 1:
+				#best_switches.remove(best_switches[0])
+		print "potential_switches:", potential_switches
+		print "best_switches:", best_switches
+		if best_switches[0] == TA1:
+			choice = choice1
+		elif best_switches[0] == TA2:
+			choice = choice2
+		elif best_switches[0] == TA3:
+			choice = choice3
+		elif best_switches[0] == TA4:
+			choice = choice4
+		return Game.Opponent_Party.index(choice)
 
 	@staticmethod
 	def opponent_move():
@@ -546,10 +546,15 @@ class Game():
 					checking = False
 			checking = False
 		switch = False
-		for weakness in opponent.type.weakness_list:
-			if pokemon.type.name == weakness:
-				#if pokemon.speed > opponent.speed:
-				switch = True
+
+		if Game.best_switch() != None:
+			for weakness in opponent.type.weakness_list:
+				if pokemon.type.name == weakness:
+					#if pokemon.speed > opponent.speed:
+					switch = True
+				if pokemon.type2 != None:
+					if pokemon.type2.name == weakness:
+						switch = True
 		minimum = Game.current_pokemon.health / 4
 		if best_moves[0] >= minimum and not switch:
 			if best_moves[0] == move1:
