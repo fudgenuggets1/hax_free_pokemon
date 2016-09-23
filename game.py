@@ -21,16 +21,16 @@ class Game():
 	Pokemon_List = []
 
 	Pokemon_List.append(squirtle)
-	Pokemon_List.append(Chikorita)
-	Pokemon_List.append(Charmander)
-	Pokemon_List.append(Pikachu)
-	Pokemon_List.append(Jynx)
+	Pokemon_List.append(chikorita)
+	Pokemon_List.append(charmander)
+	Pokemon_List.append(pikachu)
+	Pokemon_List.append(jynx)
 	current_pokemon_number = 0
 
 	Opponent_Pokemon_List = []
 	Opponent_Pokemon_List.append(opponent_squirtle)
 	Opponent_Pokemon_List.append(snorlax)
-	Opponent_Pokemon_List.append(Bulbasaur)
+	Opponent_Pokemon_List.append(bulbasaur)
 	Opponent_Pokemon_List.append(sandslash)
 	Opponent_Pokemon_List.append(primeape)
 	current_opponent_number = 0
@@ -81,34 +81,7 @@ class Game():
 			text.append(type2)
 		for item in text:
 			Functions.text_to_screen(screen, item[0], item[1], item[2])
-
-		if Game.pause:
-			for item in Game.current_turn_text:
-				Functions.text_to_screen(screen, item[0], item[1], item[2], item[3], item[4])
-
-		elif not Game.pause:
-			Game.current_turn_text[:] = []
-
-		if Game.current_pokemon.current_health <= 0 or Game.opponent.pokemon.current_health <= 0:
-			Game.Pokemon_Fainted = True
-			Game.pause = True
-			if Game.current_pokemon.current_health <= 0:
-				Game.current_pokemon.fainted = True
-			if Game.opponent.pokemon.current_health <= 0:
-				Game.opponent.pokemon.fainted = True
-		if Game.Pokemon_Fainted:
-			Game.pause = True
-			Game.show_party = True
-			if Game.current_pokemon.fainted:
-				text = ("%s died!" % Game.current_pokemon.name)
-				color = RED
-				Functions.text_to_screen(screen, text, 200, 250, 25, color)
-			elif Game.opponent.pokemon.fainted:
-				dead_text = ("%s died!" % Game.opponent.pokemon.name)
-				Functions.text_to_screen(screen, dead_text, 200, 250, 25, BLUE)
-				switch = Game.best_switch()
-				Game.send_in_opponent(switch)
-
+		# Check if all pokemon in party are fainted or not
 		x, y = 0, 0
 		Lose, Win = True, True
 		for pokemon in Game.Pokemon_List:
@@ -124,17 +97,46 @@ class Game():
 				x+=1
 			if pokemon.current_health > 0:
 				Win = False
+		# Win or Lose
+		if Win:
+			Game.game_over(screen, Game.current_pokemon)
+		if Lose:
+			Game.game_over(screen, Game.opponent.pokemon)
+		# Show the current turn info and pause the Game
+		if Game.pause:
+			for item in Game.current_turn_text:
+				Functions.text_to_screen(screen, item[0], item[1], item[2], item[3], item[4])
+		elif not Game.pause:
+			Game.current_turn_text[:] = []
+		# Check if a pokemon on the battlefield has fainted
+		if Game.current_pokemon.current_health <= 0 or Game.opponent.pokemon.current_health <= 0:
+			Game.Pokemon_Fainted = True
+			Game.pause = True
+			if Game.current_pokemon.current_health <= 0:
+				Game.current_pokemon.fainted = True
+			if Game.opponent.pokemon.current_health <= 0:
+				Game.opponent.pokemon.fainted = True
+		# Tell player a Pokemon has fainted
+		if Game.Pokemon_Fainted:
+			Game.pause = True
+			Game.show_party = True
+			if Game.current_pokemon.fainted:
+				text = ("%s died!" % Game.current_pokemon.name)
+				color = RED
+				Functions.text_to_screen(screen, text, 200, 250, 25, color)
+			elif Game.opponent.pokemon.fainted:
+				dead_text = ("%s died!" % Game.opponent.pokemon.name)
+				Functions.text_to_screen(screen, dead_text, 200, 250, 25, BLUE)
+				switch = Game.best_switch()
+				Game.send_in_opponent(switch)
 
+		# Show moves or team in the squares
 		if not Game.show_party:
 			Game.square_info = [Game.current_pokemon.move1.name, Game.current_pokemon.move2.name,
 			Game.current_pokemon.move3.name, Game.current_pokemon.move4.name,]
 		elif Game.show_party:
 			Game.square_info = [Game.Pokemon_Party[0].name, Game.Pokemon_Party[1].name, Game.Pokemon_Party[2].name, Game.Pokemon_Party[3].name]
 
-		if Win:
-			Game.game_over(screen, Game.current_pokemon)
-		if Lose:
-			Game.game_over(screen, Game.opponent.pokemon)
 
 	@staticmethod
 	def show_stats(screen):
@@ -354,7 +356,7 @@ class Game():
 
 	@staticmethod
 	def update_points(pokemon):
-		pokemon.points = 124
+		pokemon.points = 124 + 20
 		pokemon.points -= pokemon.health
 		pokemon.points -= pokemon.attack
 		pokemon.points -= pokemon.defense
@@ -434,6 +436,7 @@ class Game():
 
 	@staticmethod
 	def best_switch():
+		switch = None
 		pokemon = Game.current_pokemon
 	 	opponent = Game.opponent.pokemon
 		potential_switches = []
@@ -442,29 +445,75 @@ class Game():
 			if not isinstance(switch, int):
 				if switch.current_health > 0:
 					potential_switches.append(switch)
-		"""for potential in potential_switches:
-			for weakness in pokemon.type.weakness_list:
-				for strength in potential.type.super_effective_list:
-					if strength == weakness:
-						best_switches.append(potential)"""
+		for potential in potential_switches:
+			for immune in potential.type.immune_list:
+				for no_effect in pokemon.type.no_effect_list:
+					if no_effect == immune:
+						best_switches.append(potential)
+						best_switches[0] = potential
+						break
+			for resist in potential.type.resist_list:
+				for strength in pokemon.type.not_effective_list:
+					if strength == resist:
+						best_switches.append(potential)
+						best_switches[0] = potential
+					else:
+						if pokemon.type2 != None and potential.type2 != None:
+							for resist2 in potential.type2.resist_list:
+								for strength2 in pokemon.type2.not_effective_list:
+									if strength == resist2 or strength2 == resist:
+										best_switches.append(potential)
+			for weakness in potential.type.weakness_list:
+				if pokemon.type.name == weakness:
+					potential_switches.remove(potential)
+					break
+				if pokemon.type2 != None:
+					if pokemon.type2.name == weakness:
+						potential_switches.remove(potential)
+			best_switches.append(potential)
 
+
+		super_effective_list = set(pokemon.type.super_effective_list)
+		not_effective_list = set(pokemon.type.not_effective_list)
+		no_effect_list = set(pokemon.type.no_effect_list)
 		switches = set(potential_switches)
-		#if best_switches[0] in switches:
-		if len(potential_switches) > 0:
-			switch = Game.Opponent_Party.index(potential_switches[0])
-			return switch
+		if len(best_switches) > 1:
+			for best in best_switches:
+				for immune in best.type.immune_list:
+					if immune in no_effect_list:
+						best_switches[0] = best
+						break
+				for resist in best.type.resist_list:
+					if resist in not_effective_list:
+						best_switches[0] = best
+						break
+				if best not in switches:
+					best_switches.remove(best)
+				for weakness in best.type.weakness_list:
+					if weakness in super_effective_list:
+						best_switches.remove(best)
+				#best_switches.remove(best)
+
+			switch = Game.Opponent_Party.index(best_switches[0])
+		if len(best_switches) < 1:
+			if len(potential_switches) > 0:
+				switch = Game.Opponent_Party.index(potential_switches[0])
+		else:
+			switch = Game.Opponent_Party.index(best_switches[0])
+		return switch
 
 	@staticmethod
 	def opponent_move():
-		pokemon = Game.opponent.pokemon
+		opponent = Game.opponent.pokemon
+		pokemon = Game.current_pokemon
 		TA1 = Game.type_advantage(Game.current_pokemon, Game.opponent.pokemon.move1)
 		TA2 = Game.type_advantage(Game.current_pokemon, Game.opponent.pokemon.move2)
 		TA3 = Game.type_advantage(Game.current_pokemon, Game.opponent.pokemon.move3)
 		TA4 = Game.type_advantage(Game.current_pokemon, Game.opponent.pokemon.move4)
-		move1 = Game.damage_calc(pokemon, Game.current_pokemon, pokemon.move1, TA1)
-		move2 = Game.damage_calc(pokemon, Game.current_pokemon, pokemon.move2, TA2)
-		move3 = Game.damage_calc(pokemon, Game.current_pokemon, pokemon.move3, TA3)
-		move4 = Game.damage_calc(pokemon, Game.current_pokemon, pokemon.move4, TA4)
+		move1 = Game.damage_calc(opponent, Game.current_pokemon, opponent.move1, TA1)
+		move2 = Game.damage_calc(opponent, Game.current_pokemon, opponent.move2, TA2)
+		move3 = Game.damage_calc(opponent, Game.current_pokemon, opponent.move3, TA3)
+		move4 = Game.damage_calc(opponent, Game.current_pokemon, opponent.move4, TA4)
 		type_advantages = [TA1, TA2, TA3, TA4]
 		best_moves = [move1, move2, move3, move4]
 		while len(best_moves) > 1:
@@ -484,6 +533,7 @@ class Game():
 						best_moves.remove(best_moves[0])
 					else:
 						best_moves.remove(best_moves[-1])
+		# While loop to get the best move choice
 		checking = True
 		while checking:
 			for number in type_advantages:
@@ -495,8 +545,13 @@ class Game():
 				else:
 					checking = False
 			checking = False
+		switch = False
+		for weakness in opponent.type.weakness_list:
+			if pokemon.type.name == weakness:
+				#if pokemon.speed > opponent.speed:
+				switch = True
 		minimum = Game.current_pokemon.health / 4
-		if best_moves[0] >= minimum:
+		if best_moves[0] >= minimum and not switch:
 			if best_moves[0] == move1:
 				opponent_move = Game.opponent.pokemon.move1
 			elif best_moves[0] == move2:

@@ -77,7 +77,7 @@ class Button():
             #badly coded to increase and decrease points
             if Game.current_pokemon.points < 124:
                 if self.action == "-health":
-                    if Game.current_pokemon.health > 1:
+                    if Game.current_pokemon.health > 20:
                         Game.current_pokemon.health -= 1
                 elif self.action == "-attack":
                     if Game.current_pokemon.attack > 1:
@@ -97,7 +97,7 @@ class Button():
             max_stat = 60
             if Game.current_pokemon.points > 0:
                 if self.action == "+health":
-                    if Game.current_pokemon.health < max_stat:
+                    if Game.current_pokemon.health < max_stat+20:
                         Game.current_pokemon.health += 1
                 elif self.action == "+attack":
                     if Game.current_pokemon.attack < max_stat:

@@ -61,8 +61,8 @@ class Pokemon():
 
     def __init__(self, health, attack, defense, special_attack, special_defense, speed, ptype1, name, ptype2=None):
 
-        self.health = health
-        self.current_health = health
+        self.health = health + 20
+        self.current_health = self.health
         self.attack = attack
         self.defense = defense
         self.special_attack = special_attack
@@ -74,7 +74,7 @@ class Pokemon():
         self.move4 = None
         self.name = name
         self.fainted = False
-        self.points = (124 - health)
+        self.points = (124 - health) + 20
         self.points -= attack
         self.points -= defense
         self.points -= special_attack
@@ -109,29 +109,14 @@ class Squirtle(Pokemon):
     move_set = [iron_tail, surf, waterfall, ice_punch]
 
     def __init__(self):
-
-        self.health = 32
-        self.current_health = 32
-        self.attack = 13
-        self.defense = 30
-        self.special_attack = 14
-        self.special_defense = 29
-        self.speed = 6
+        Pokemon.__init__(self, health=22, attack=15, defense=30, special_attack=19, special_defense=29, speed=9,
+        ptype1=Water, name="Squirtle")
         self.move1 = Squirtle.move1
         self.move2 = Squirtle.move2
         self.move3 = Squirtle.move3
         self.move4 = Squirtle.move4
-        self.name = "Squirtle"
-        self.fainted = False
-        self.points = 0
-        self.type = Water
         self.move_list = Squirtle.move_list
         self.move_set = Squirtle.move_set
-        self.move1_number = 0
-        self.move2_number = 1
-        self.move3_number = 2
-        self.move4_number = 3
-        self.type2 = None
 
 
 class Snorlax(Pokemon):
@@ -144,48 +129,107 @@ class Snorlax(Pokemon):
     move_set = [move1, move2, move3, move4]
 
     def __init__(self):
-
-        self.health = 60
-        self.current_health = 60
-        self.attack = 36
-        self.defense = 13
-        self.special_attack = 1
-        self.special_defense = 13
-        self.speed = 1
+        Pokemon.__init__(self, health=50, attack=32, defense=20, special_attack=1, special_defense=20, speed=1,
+        ptype1=Normal, name="Snorlax")
         self.move1 = Snorlax.move1
         self.move2 = Snorlax.move2
         self.move3 = Snorlax.move3
         self.move4 = Snorlax.move4
-        self.name = "Snorlax"
-        self.fainted = False
-        self.points = 0
-        self.type = Normal
         self.move_list = Snorlax.move_list
         self.move_set = Snorlax.move_set
-        self.move1_number = 0
-        self.move2_number = 1
-        self.move3_number = 2
-        self.move4_number = 3
-        self.type2 = None
 
 
 class Charmander(Pokemon):
+    move_set = [ancient_power, flamethrower, crunch, thunder_punch]
+    move1 = ancient_power
+    move2 = flamethrower
+    move3 = crunch
+    move4 = thunder_punch
+    move_list = [scratch, flamethrower, crunch, thunder_punch, aerial_ace, ancient_power, brick_break, dragon_claw]
 
     def __init__(self):
-        Pokemon.__init__(self, health=25, attack=19, defense=19, special_attack=19, special_defense=19, speed=19, ptype1=Fire, name="Charmander")
+        Pokemon.__init__(self, health=15, attack=19, defense=19, special_attack=28, special_defense=19, speed=24,
+        ptype1=Fire, name="Charmander")
+        self.move1 = Charmander.move1
+        self.move2 = Charmander.move2
+        self.move3 = Charmander.move3
+        self.move4 = Charmander.move4
+        self.move_list = Charmander.move_list
+        self.move_set = Charmander.move_set
 
 
 class Chikorita(Pokemon):
-
+    move_list = [energy_ball, ancient_power, tackle, iron_tail]
+    move1 = energy_ball
+    move2 = ancient_power
+    move3 = tackle
+    move4 = iron_tail
+    move_set = [energy_ball, ancient_power, tackle, iron_tail]
     def __init__(self):
-        Pokemon.__init__(self, health=30, attack=10, defense=30, special_attack=11, special_defense=11, speed=4,
+        Pokemon.__init__(self, health=19, attack=19, defense=24, special_attack=19, special_defense=24, speed=19,
         ptype1=Grass, name="Chikorita")
+        self.move1 = Chikorita.move1
+        self.move2 = Chikorita.move2
+        self.move3 = Chikorita.move3
+        self.move4 = Chikorita.move4
+        self.move_list = Chikorita.move_list
+        self.move_set = Chikorita.move_set
+
+
 class Pikachu(Pokemon):
-    pass
+    move_list = [brick_break, iron_tail, thunderbolt, signal_beam, surf]
+    move1 = thunderbolt
+    move2 = signal_beam
+    move3 = surf
+    move4 = iron_tail
+    move_set = [thunderbolt, signal_beam, surf, iron_tail]
+    def __init__(self):
+        Pokemon.__init__(self, health=15, attack=16, defense=10, special_attack=40, special_defense=10, speed=33,
+        ptype1=Electric, name="Pikachu")
+        self.move1 = Pikachu.move1
+        self.move2 = Pikachu.move2
+        self.move3 = Pikachu.move3
+        self.move4 = Pikachu.move4
+        self.move_set = Pikachu.move_set
+        self.move_list = Pikachu.move_list
+
+
 class Bulbasaur(Pokemon):
-    pass
+    move_list = [tackle, iron_tail, energy_ball, sludge_bomb, ancient_power]
+    move1 = energy_ball
+    move2 = sludge_bomb
+    move3 = ancient_power
+    move4 = iron_tail
+    move_set = [energy_ball, sludge_bomb, ancient_power, iron_tail]
+    def __init__(self):
+        Pokemon.__init__(self, health=24, attack=10, defense=20, special_attack=30, special_defense=30, speed=10,
+        ptype1=Grass, name="Bulbasaur", ptype2=Poison)
+        self.move1 = Bulbasaur.move1
+        self.move2 = Bulbasaur.move2
+        self.move3 = Bulbasaur.move3
+        self.move4 = Bulbasaur.move4
+        self.move_list = Bulbasaur.move_list
+        self.move_set = Bulbasaur.move_set
+
+
 class Jynx(Pokemon):
-    pass
+    move_list = [ice_beam, ice_punch, psychic, signal_beam, brick_break, energy_ball, shadow_ball]
+    move1 = ice_beam
+    move2 = psychic
+    move3 = signal_beam
+    move4 = energy_ball
+    move_set = [ice_beam, psychic, signal_beam, energy_ball]
+    def __init__(self):
+        Pokemon.__init__(self, health=13, attack=11, defense=10, special_attack=30, special_defense=30, speed=30,
+        ptype1=Ice, name="Jynx", ptype2=Psychic)
+        self.move1 = Jynx.move1
+        self.move2 = Jynx.move2
+        self.move3 = Jynx.move3
+        self.move4 = Jynx.move4
+        self.move_set = Jynx.move_set
+        self.move_list = Jynx.move_list
+
+
 class Sandslash(Pokemon):
     move_list = [earthquake, aerial_ace, iron_tail, brick_break, scratch]
     move1 = earthquake
@@ -194,7 +238,7 @@ class Sandslash(Pokemon):
     move4 = brick_break
     move_set = [move1, move2, move3, move4]
     def __init__(self):
-        Pokemon.__init__(self, health=35, attack=30, defense=30, special_attack=1, special_defense=15, speed=13,
+        Pokemon.__init__(self, health=25, attack=30, defense=35, special_attack=1, special_defense=20, speed=13,
         ptype1=Ground, name="Sandslash")
         self.move1 = Sandslash.move1
         self.move2 = Sandslash.move2
@@ -212,7 +256,7 @@ class Primeape(Pokemon):
     move4 = ice_punch
     move_set = [move1, move2, move3, move4]
     def __init__(self):
-        Pokemon.__init__(self, health=25, attack=40, defense=15, special_attack=1, special_defense=15, speed=28,
+        Pokemon.__init__(self, health=15, attack=40, defense=15, special_attack=11, special_defense=15, speed=28,
         ptype1=Fight, name="Primeape")
         self.move1 = Primeape.move1
         self.move2 = Primeape.move2
@@ -227,43 +271,8 @@ opponent_squirtle = Squirtle()
 snorlax = Snorlax()
 sandslash = Sandslash()
 primeape = Primeape()
-
-Charmander = Charmander()
-Charmander.move_set = [ancient_power, flamethrower, crunch, thunder_punch]
-Charmander.move1 = ancient_power
-Charmander.move2 = flamethrower
-Charmander.move3 = crunch
-Charmander.move4 = thunder_punch
-Charmander.move_list = [scratch, flamethrower, crunch, thunder_punch, aerial_ace, ancient_power, brick_break, dragon_claw]
-
-Chikorita = Chikorita()
-Chikorita.move_list = [energy_ball, ancient_power, tackle, iron_tail]
-Chikorita.move1 = energy_ball
-Chikorita.move2 = ancient_power
-Chikorita.move3 = tackle
-Chikorita.move4 = iron_tail
-Chikorita.move_set = [energy_ball, ancient_power, tackle, iron_tail]
-
-Pikachu = Pikachu(30, 1, 15, 30, 15, 33, Electric, "Pikachu")
-Pikachu.move_list = [brick_break, iron_tail, thunderbolt, signal_beam, surf]
-Pikachu.move1 = thunderbolt
-Pikachu.move2 = signal_beam
-Pikachu.move3 = surf
-Pikachu.move4 = iron_tail
-Pikachu.move_set = [thunderbolt, signal_beam, surf, iron_tail]
-
-Bulbasaur = Bulbasaur(40, 10, 25, 10, 25, 14, Grass, "Bulbasaur", Poison)
-Bulbasaur.move_list = [tackle, iron_tail, energy_ball, sludge_bomb]
-Bulbasaur.move1 = energy_ball
-Bulbasaur.move2 = sludge_bomb
-Bulbasaur.move3 = tackle
-Bulbasaur.move4 = iron_tail
-Bulbasaur.move_set = [energy_ball, sludge_bomb, tackle, iron_tail]
-
-Jynx = Jynx(23, 1, 10, 30, 30, 30, Ice, "Jynx", Psychic)
-Jynx.move_list = [ice_beam, ice_punch, psychic, signal_beam, brick_break, energy_ball, shadow_ball]
-Jynx.move1 = ice_beam
-Jynx.move2 = psychic
-Jynx.move3 = signal_beam
-Jynx.move4 = energy_ball
-Jynx.move_set = [ice_beam, psychic, signal_beam, energy_ball]
+charmander = Charmander()
+chikorita = Chikorita()
+pikachu = Pikachu()
+bulbasaur = Bulbasaur()
+jynx = Jynx()
