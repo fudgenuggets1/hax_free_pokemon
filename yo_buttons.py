@@ -57,13 +57,15 @@ class Button():
 
             if not Game.pause and Game.show_party and not Game.Pokemon_Fainted:
                 if self.action == "move1":
-                    Game.do_moves(0)
+                    pokemon_number = 0
                 elif self.action == "move2":
-                    Game.do_moves(1)
+                    pokemon_number = 1
                 elif self.action == "move3":
-                    Game.do_moves(2)
+                    pokemon_number = 2
                 elif self.action == "move4":
-                    Game.do_moves(3)
+                    pokemon_number = 3
+                if Game.Pokemon_Party[pokemon_number].current_health > 0:    
+                    Game.do_moves(pokemon_number)
             if Game.Pokemon_Fainted and Game.show_party:
                 if self.action == "move1":
                     Game.send_in_pokemon(0)

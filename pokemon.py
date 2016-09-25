@@ -59,7 +59,8 @@ dazzling_gleam = Move(80, "Dazzling Gleam", Fairy, "special")
 
 class Pokemon():
 
-    def __init__(self, health, attack, defense, special_attack, special_defense, speed, ptype1, name, ptype2=None):
+    def __init__(self, health, attack, defense, special_attack, special_defense, speed,
+    ptype1, name, front_image, back_image, ptype2=None):
 
         self.health = health + 20
         self.current_health = self.health
@@ -88,6 +89,8 @@ class Pokemon():
         self.move3_number = 2
         self.move4_number = 3
         self.type2 = ptype2
+        self.front_image = pygame.image.load(front_image)
+        self.back_image = pygame.image.load(back_image)
 
 
 class Opponent():
@@ -107,10 +110,11 @@ class Squirtle(Pokemon):
     move4 = ice_punch
     move_list = [iron_tail, surf, waterfall, ice_punch, ice_beam, water_gun, brick_break, tackle]
     move_set = [iron_tail, surf, waterfall, ice_punch]
-
+    front_image = 'images/squirtle_front.png'
+    back_image = 'images/squirtle_back.png'
     def __init__(self):
         Pokemon.__init__(self, health=22, attack=15, defense=30, special_attack=19, special_defense=29, speed=9,
-        ptype1=Water, name="Squirtle")
+        ptype1=Water, name="Squirtle", front_image=Squirtle.front_image, back_image=Squirtle.back_image)
         self.move1 = Squirtle.move1
         self.move2 = Squirtle.move2
         self.move3 = Squirtle.move3
@@ -127,10 +131,11 @@ class Snorlax(Pokemon):
     move4 = ice_punch
     move_list = [iron_tail, surf, waterfall, ice_punch, ice_beam, water_gun, brick_break, tackle, crunch]
     move_set = [move1, move2, move3, move4]
-
+    front_image = 'images/snorlax_front.png'
+    back_image = 'images/snorlax_back.png'
     def __init__(self):
         Pokemon.__init__(self, health=50, attack=32, defense=20, special_attack=1, special_defense=20, speed=1,
-        ptype1=Normal, name="Snorlax")
+        ptype1=Normal, name="Snorlax", front_image=Snorlax.front_image, back_image=Snorlax.back_image)
         self.move1 = Snorlax.move1
         self.move2 = Snorlax.move2
         self.move3 = Snorlax.move3
@@ -146,10 +151,11 @@ class Charmander(Pokemon):
     move3 = crunch
     move4 = thunder_punch
     move_list = [scratch, flamethrower, crunch, thunder_punch, aerial_ace, ancient_power, brick_break, dragon_claw]
-
+    front_image = 'images/charmander_front.png'
+    back_image = 'images/charmander_back.png'
     def __init__(self):
         Pokemon.__init__(self, health=15, attack=19, defense=19, special_attack=28, special_defense=19, speed=24,
-        ptype1=Fire, name="Charmander")
+        ptype1=Fire, name="Charmander", front_image=Charmander.front_image, back_image=Charmander.back_image)
         self.move1 = Charmander.move1
         self.move2 = Charmander.move2
         self.move3 = Charmander.move3
@@ -165,9 +171,11 @@ class Chikorita(Pokemon):
     move3 = tackle
     move4 = iron_tail
     move_set = [energy_ball, ancient_power, tackle, iron_tail]
+    front_image = 'images/chikorita_front.png'
+    back_image = 'images/chikorita_back.png'
     def __init__(self):
         Pokemon.__init__(self, health=19, attack=19, defense=24, special_attack=19, special_defense=24, speed=19,
-        ptype1=Grass, name="Chikorita")
+        ptype1=Grass, name="Chikorita", front_image=Chikorita.front_image, back_image=Chikorita.back_image)
         self.move1 = Chikorita.move1
         self.move2 = Chikorita.move2
         self.move3 = Chikorita.move3
@@ -183,9 +191,11 @@ class Pikachu(Pokemon):
     move3 = surf
     move4 = iron_tail
     move_set = [thunderbolt, signal_beam, surf, iron_tail]
+    front_image = 'images/pikachu_front.png'
+    back_image = 'images/pikachu_back.png'
     def __init__(self):
         Pokemon.__init__(self, health=15, attack=16, defense=10, special_attack=40, special_defense=10, speed=33,
-        ptype1=Electric, name="Pikachu")
+        ptype1=Electric, name="Pikachu", front_image=Pikachu.front_image, back_image=Pikachu.back_image)
         self.move1 = Pikachu.move1
         self.move2 = Pikachu.move2
         self.move3 = Pikachu.move3
@@ -201,9 +211,11 @@ class Bulbasaur(Pokemon):
     move3 = ancient_power
     move4 = iron_tail
     move_set = [energy_ball, sludge_bomb, ancient_power, iron_tail]
+    front_image = 'images/bulbasaur_front.png'
+    back_image = 'images/bulbasaur_back.png'
     def __init__(self):
         Pokemon.__init__(self, health=24, attack=10, defense=20, special_attack=30, special_defense=30, speed=10,
-        ptype1=Grass, name="Bulbasaur", ptype2=Poison)
+        ptype1=Grass, name="Bulbasaur", front_image=Bulbasaur.front_image, back_image=Bulbasaur.back_image, ptype2=Poison)
         self.move1 = Bulbasaur.move1
         self.move2 = Bulbasaur.move2
         self.move3 = Bulbasaur.move3
@@ -219,9 +231,11 @@ class Jynx(Pokemon):
     move3 = signal_beam
     move4 = energy_ball
     move_set = [ice_beam, psychic, signal_beam, energy_ball]
+    front_image = 'images/jynx_front.png'
+    back_image = 'images/jynx_back.png'
     def __init__(self):
         Pokemon.__init__(self, health=13, attack=11, defense=10, special_attack=30, special_defense=30, speed=30,
-        ptype1=Ice, name="Jynx", ptype2=Psychic)
+        ptype1=Ice, name="Jynx", front_image=Jynx.front_image, back_image=Jynx.back_image, ptype2=Psychic)
         self.move1 = Jynx.move1
         self.move2 = Jynx.move2
         self.move3 = Jynx.move3
@@ -237,9 +251,11 @@ class Sandslash(Pokemon):
     move3 = iron_tail
     move4 = brick_break
     move_set = [move1, move2, move3, move4]
+    front_image = 'images/sandslash_front.png'
+    back_image = 'images/sandslash_back.png'
     def __init__(self):
         Pokemon.__init__(self, health=25, attack=30, defense=35, special_attack=1, special_defense=20, speed=13,
-        ptype1=Ground, name="Sandslash")
+        ptype1=Ground, name="Sandslash", front_image=Sandslash.front_image, back_image=Sandslash.back_image)
         self.move1 = Sandslash.move1
         self.move2 = Sandslash.move2
         self.move3 = Sandslash.move3
@@ -255,9 +271,11 @@ class Primeape(Pokemon):
     move3 = thunder_punch
     move4 = ice_punch
     move_set = [move1, move2, move3, move4]
+    front_image = 'images/primeape_front.png'
+    back_image = 'images/primeape_back.png'
     def __init__(self):
         Pokemon.__init__(self, health=15, attack=40, defense=15, special_attack=11, special_defense=15, speed=28,
-        ptype1=Fight, name="Primeape")
+        ptype1=Fight, name="Primeape", front_image=Primeape.front_image, back_image=Primeape.back_image)
         self.move1 = Primeape.move1
         self.move2 = Primeape.move2
         self.move3 = Primeape.move3

@@ -123,3 +123,28 @@ if len(potential_switches):
 if best_switches:
     switch = Game.Opponent_Party.index(best_switches[0])
 return switch
+
+# 3###########
+#switches = set(potential_switches)
+
+#TA1 = Game.type_advantage(Game.Opponent_Party[0], pokemon)
+"""if len(potential_switches):
+    for switch in potential_switches:
+        for weakness in switch.type.weakness_list:
+            if switch.type2 != None:
+                for weakness2 in switch.type2.weakness_list:
+                    if pokemon.type.name == weakness or pokemon.type.name == weakness2:
+                        potential_switches.remove(switch)
+                    if pokemon.type2 != None:
+                        if pokemon.type2.name == weakness or pokemon.type2.name == weakness2:
+                            potential_switches.remove(switch)
+            else:
+                if pokemon.type.name == weakness:
+                    potential_switches.remove(switch)
+                if pokemon.type2 != None:
+                    if pokemon.type2.name == weakness:
+                        potential_switches.remove(switch)
+        TA = Game.type_advantage(switch, pokemon) * Game.type_advantage(pokemon, switch)
+        if TA > 1:
+            pass
+            #potential_switches.remove(switch)"""
