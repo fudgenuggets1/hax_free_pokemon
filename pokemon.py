@@ -19,18 +19,28 @@ thrash = Move(100, "Thrash", Normal, "physical")
 # Fight
 brick_break = Move(75, "Brick Break", Fight, "physical")
 # Flying
+aeroblast = Move(100, "Aeroblast", Flying, "special")
+air_slash = Move(80, "Air Slash", Flying, "special")
 aerial_ace = Move(60, "Aerial Ace", Flying, "physical")
+drill_peck = Move(80, "Drill Peck", Flying, "physical")
 # Poison
 sludge_bomb = Move(90, "Sludge Bomb", Poison, "special")
+poison_jab = Move(80, "Poison Jab", Poison, "physical")
 # Ground
 earthquake = Move(100, "Earthquake", Ground, "physical")
+earth_power = Move(90, "Earth Power", Ground, "special")
 # Rock
+power_gem = Move(80, "Power Gem", Rock, "special")
 ancient_power = Move(60, "Ancient Power", Rock, "special")
+rock_slide = Move(80, "Rock Slide", Rock, "physical")
 # Bug
+megahorn = Move(100, "Megahorn", Bug, "physical")
+bug_buzz = Move(90, "Bug Buzz", Bug, "special")
 signal_beam = Move(75, "Signal Beam", Bug, "special")
 # Ghost
 shadow_ball = Move(80, "Shadow Ball", Ghost, "special")
 # Steel
+flash_cannon = Move(80, "Flash Cannon", Steel, "special")
 iron_tail = Move(100, "Iron Tail", Steel, "physical")
 # Fire
 fire_punch = Move(75, "Fire Punch", Fire, "physical")
@@ -95,7 +105,7 @@ class Pokemon():
 
 class Opponent():
 
-    def __init__(self, pokemon, number):
+    def __init__(self, pokemon, number=0):
 
         self.list = pokemon
         self.pokemon_number = number
@@ -284,6 +294,66 @@ class Primeape(Pokemon):
         self.move_list = Primeape.move_list
 
 
+class Magneton(Pokemon):
+    move_list = [flash_cannon, signal_beam, thunderbolt, tackle]
+    move1 = flash_cannon
+    move2 = thunderbolt
+    move3 = signal_beam
+    move4 = tackle
+    move_set = [move1, move2, move3, move4]
+    front_image = 'images/magneton_front.png'
+    back_image = 'images/magneton_back.png'
+    def __init__(self):
+        Pokemon.__init__(self, health=20, attack=1, defense=30, special_attack=30, special_defense=30, speed=13,
+        ptype1=Electric, name="Magneton", front_image=Magneton.front_image, back_image=Magneton.back_image, ptype2=Steel)
+        self.move1 = Magneton.move1
+        self.move2 = Magneton.move2
+        self.move3 = Magneton.move3
+        self.move4 = Magneton.move4
+        self.move_list = Magneton.move_list
+        self.move_set = Magneton.move_set
+
+
+class Butterfree(Pokemon):
+    move_list = [air_slash, bug_buzz, aerial_ace, energy_ball, psychic, shadow_ball, signal_beam, tackle]
+    move1 = air_slash
+    move2 = bug_buzz
+    move3 = energy_ball
+    move4 = psychic
+    move_set = [move1, move2, move3, move4]
+    front_image = 'images/butterfree_front.png'
+    back_image = 'images/butterfree_back.png'
+    def __init__(self):
+        Pokemon.__init__(self, health=15, attack=1, defense=10, special_attack=35, special_defense=30, speed=33,
+        ptype1=Bug, name="Butterfree", front_image=Butterfree.front_image, back_image=Butterfree.back_image, ptype2=Flying)
+        self.move1 = Butterfree.move1
+        self.move2 = Butterfree.move2
+        self.move3 = Butterfree.move3
+        self.move4 = Butterfree.move4
+        self.move_list = Butterfree.move_list
+        self.move_set = Butterfree.move_set
+
+
+class Sudowoodo(Pokemon):
+    move_list=[brick_break, earth_power, earthquake, fire_punch, ice_punch, rock_slide, thunder_punch]
+    move1 = rock_slide
+    move2 = earthquake
+    move3 = thunder_punch
+    move4 = ice_punch
+    move_set = [move1, move2, move3, move4]
+    front_image='images/sudowoodo_front.png'
+    back_image='images/sudowoodo_back.png'
+    def __init__(self):
+        Pokemon.__init__(self, health=25, attack=40, defense=40, special_attack=1, special_defense=15, speed=3,
+        ptype1=Rock, name="Sudowoodo", front_image=Sudowoodo.front_image, back_image=Sudowoodo.back_image)
+        self.move1 = Sudowoodo.move1
+        self.move2 = Sudowoodo.move2
+        self.move3 = Sudowoodo.move3
+        self.move4 = Sudowoodo.move4
+        self.move_list = Sudowoodo.move_list
+        self.move_set = Sudowoodo.move_set
+
+
 squirtle = Squirtle()
 opponent_squirtle = Squirtle()
 snorlax = Snorlax()
@@ -294,3 +364,9 @@ chikorita = Chikorita()
 pikachu = Pikachu()
 bulbasaur = Bulbasaur()
 jynx = Jynx()
+magneton = Magneton()
+butterfree = Butterfree()
+sudowoodo = Sudowoodo()
+
+red = Opponent([butterfree, magneton, snorlax, sudowoodo, sandslash])
+opponent = Opponent([opponent_squirtle, snorlax, bulbasaur, sandslash, primeape])

@@ -19,6 +19,8 @@ class Game():
 	current_screen_number = 0
 
 	Pokemon_List = []
+	opponent = red
+	Opponent_Pokemon_List = opponent.list
 
 	Pokemon_List.append(squirtle)
 	Pokemon_List.append(chikorita)
@@ -26,15 +28,7 @@ class Game():
 	Pokemon_List.append(pikachu)
 	Pokemon_List.append(jynx)
 	current_pokemon_number = 0
-
-	Opponent_Pokemon_List = []
-	Opponent_Pokemon_List.append(opponent_squirtle)
-	Opponent_Pokemon_List.append(snorlax)
-	Opponent_Pokemon_List.append(bulbasaur)
-	Opponent_Pokemon_List.append(sandslash)
-	Opponent_Pokemon_List.append(primeape)
 	current_opponent_number = 0
-	opponent = Opponent(Opponent_Pokemon_List, current_opponent_number)
 
 	current_turn_text = []
 
@@ -491,6 +485,29 @@ class Game():
 						best_switches.remove(TA3)
 					elif switch == choice4:
 						best_switches.remove(TA4)
+		if len(potential_switches) > 1:
+			for switch in potential_switches:
+				for weakness in switch.type.weakness_list:
+					if pokemon.type.name == weakness:
+						#if pokemon.speed > opponent.speed:
+						potential_switches.remove(switch)
+						break
+					if pokemon.type2 != None:
+						if pokemon.type2.name == weakness:
+							potential_switches.remove(switch)
+							break
+			for switch in potential_switches:
+				if switch.type2 != None:
+					for weakness2 in switch.type2.weakness_list:
+						if pokemon.type.name == weakness2:
+							potential_switches.remove(switch)
+							break
+						if pokemon.type2 != None:
+							if pokemon.type2.name == weakness2:
+								potential_switches.remove(switch)
+								break
+
+
 		super_effective_list = set(pokemon.type.super_effective_list)
 		not_effective_list = set(pokemon.type.not_effective_list)
 		no_effect_list = set(pokemon.type.no_effect_list)
