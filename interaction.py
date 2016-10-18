@@ -29,7 +29,7 @@ def interaction(screen):
                 if button.mouse_on:
                     button.do_action()
 
-    if pygame.mouse.get_pressed()[0] and Game.current_screen == Game.screens[1]:
-        for button in Game.current_screen.Button_List:
-            if button.mouse_on:
-                button.do_action()
+    #if pygame.mouse.get_pressed()[0] and Game.current_screen == Game.screens[1]:
+    #    for button in Game.current_screen.Button_List:
+    #        if button.mouse_on:
+    #            button.do_action()

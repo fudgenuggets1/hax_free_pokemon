@@ -10,10 +10,3 @@ def text_to_screen(screen, text, x, y, size = 25,
     text = font.render(text, True, color)
 
     screen.blit(text, (x-(size[0]/2), y-(size[1]/2)))
-
-def increase(pokemon):
-    if pokemon.points > 0:
-        pokemon.points -= 1
-def decrease(pokemon):
-    if pokemon.points < 504:
-        pokemon.points +=1
