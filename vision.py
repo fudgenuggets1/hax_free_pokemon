@@ -17,6 +17,8 @@ BRIGHT_BLUE = (0, 0, 255)
 BRIGHT_RED = (255, 0, 0)
 DARK_RED = (139, 0, 0)
 DODGER_BLUE = (44, 144, 255)
+BRIGHT_SNOW_WHITE = (238, 233, 233)
+SNOW_WHITE = (205, 201, 201)
 
 
 class Block(pygame.sprite.Sprite):
@@ -69,7 +71,8 @@ class Home_Screen(Visible):
         buttons = [
             ["Team Builder", 225, 75, 190, 50, BLUE, BRIGHT_BLUE, 1],
             ["Play", 225, 225, 190, 50, RED, BRIGHT_RED, 2],
-            ["Options", 225, 375, 190, 50, GREEN, BRIGHT_GREEN, None]
+            ["Change Teams", 225, 375, 190, 50, GREEN, BRIGHT_GREEN, 3],
+            ["Gym Leaders", 450, 225, 160, 50, ORANGE, BRIGHT_ORANGE, 4],
         ]
 
         for item in buttons:
@@ -110,8 +113,10 @@ class Team_Builder_Screen(Visible):
             [">", 300, 280, 20, 20, GREEN, BRIGHT_GREEN, ">move3"],
             ["<", 5, 380, 20, 20, GREEN, BRIGHT_GREEN, "<move4"],
             [">", 300, 380, 20, 20, GREEN, BRIGHT_GREEN, ">move4"],
-            ["<", 55, 20, 20, 20, GREEN, BRIGHT_GREEN, "previous"],
-            [">", 325, 20, 20, 20, GREEN, BRIGHT_GREEN, "next"],
+            ["<", 55, 30, 20, 20, GREEN, BRIGHT_GREEN, "previous"],
+            [">", 325, 30, 20, 20, GREEN, BRIGHT_GREEN, "next"],
+            ["previous", 150, 4, 100, 20, GREEN, BRIGHT_GREEN, "up"],
+            ["next", 150, 54, 100, 20, GREEN, BRIGHT_GREEN, "down"]
 
         ]
 
@@ -156,6 +161,39 @@ class Play_Screen(Visible):
         for item in blocks:
             block = Block(item[0], item[1], item[2], item[3], item[4])
             self.Block_List.add(block)
+
+        for item in buttons:
+            button = Button(item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7])
+            self.Button_List.append(button)
+
+
+class Options_Screen(Visible):
+
+    def __init__(self):
+        Visible.__init__(self)
+
+        buttons = [
+            ["Exit", 590, 450, 45, 25, RED, BRIGHT_RED, 0],
+            ["New Team", 50, 350, 200, 30, GREEN, BRIGHT_GREEN, "new_team"],
+            ["Random Team", 25, 400, 250, 30, GREEN, BRIGHT_GREEN, "random_team"],
+            ["New Opponent", 390, 350, 200, 30, GREEN, BRIGHT_GREEN, "new_opponent"],
+            ["Random Opponent", 365, 400, 250, 30, GREEN, BRIGHT_GREEN, "random_opponent"],
+        ]
+
+        for item in buttons:
+            button = Button(item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7])
+            self.Button_List.append(button)
+
+class Gym_Leaders_Screen(Visible):
+
+    def __init__(self):
+        Visible.__init__(self)
+
+        buttons = [
+            ["Exit", 590, 450, 45, 25, RED, BRIGHT_RED, 0],
+            ["Normal", 100, 100, 150, 30, SNOW_WHITE, BRIGHT_SNOW_WHITE, "normal"],
+            #["Normal", 100, 100, 150, 30, YELLOW, BRIGHT_YELLOW, "normal"],
+        ]
 
         for item in buttons:
             button = Button(item[0], item[1], item[2], item[3], item[4], item[5], item[6], item[7])
