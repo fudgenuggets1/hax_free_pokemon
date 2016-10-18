@@ -1,5 +1,6 @@
 import pygame, sys
-from buttons import Button
+from yo_buttons import Button
+from game import Game
 
 def interaction(screen):
 
@@ -14,11 +15,21 @@ def interaction(screen):
             pygame.quit()
     	    sys.exit()
 
-    	for button in Button.List:
-			if button.x+button.w > mouse_x > button.x and button.y+button.h > mouse_y > button.y:
-				button.mouse_over()
-				if event.type == pygame.MOUSEBUTTONDOWN:
-					button.do_action()
-					break
-			else:
-				button.mouse_off()
+        for button in Game.current_screen.Button_List:
+            if button.x+button.w > mouse_x > button.x and button.y+button.h > mouse_y > button.y:
+                button.mouse_over()
+            else:
+                button.mouse_off()
+        if Game.previous_screen != None:
+            for button in Game.previous_screen.Button_List:
+                button.mouse_off()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for button in Game.current_screen.Button_List:
+                if button.mouse_on:
+                    button.do_action()
+
+    #if pygame.mouse.get_pressed()[0] and Game.current_screen == Game.screens[1]:
+    #    for button in Game.current_screen.Button_List:
+    #        if button.mouse_on:
+    #            button.do_action()
