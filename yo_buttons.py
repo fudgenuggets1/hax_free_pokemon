@@ -1,9 +1,10 @@
-import pygame, Functions, pokemon, random
+import pygame, Functions, pokemon, random, time
 pygame.font.init()
 
 class Button():
 
     List = []
+    time = time.time()
 
     def __init__(self, msg, x, y, w, h, color, highlight, action):
 
@@ -48,7 +49,7 @@ class Button():
                     Game.do_moves(Game.current_pokemon.move3)
                 elif self.action == "move4":
                     Game.do_moves(Game.current_pokemon.move4)
-            elif self.action == "ok" and Game.pause:
+            elif self.action == "ok" and Game.pause and not Game.Pokemon_Fainted:
                 Game.pause = False
 
             if not Game.pause and Game.show_party and not Game.Pokemon_Fainted:
@@ -65,7 +66,7 @@ class Button():
                 if pokemon_number:
                     if Game.Pokemon_Party[pokemon_number].current_health > 0:
                         Game.do_moves(pokemon_number)
-            if Game.Pokemon_Fainted and Game.show_party:
+            if Game.Pokemon_Fainted and Game.show_party and not Game.switching:
                 if self.action == "move1":
                     Game.send_in_pokemon(0)
                 elif self.action == "move2":
@@ -74,7 +75,18 @@ class Button():
                     Game.send_in_pokemon(2)
                 elif self.action == "move4":
                     Game.send_in_pokemon(3)
-
+            if Game.switching and Game.show_party:
+                pokemon_number = False
+                if self.action == "move1":
+                    Game.switch_move(Game.current_pokemon, pokemon_number)
+                elif self.action == "move2":
+                    pokemon_number = 1
+                elif self.action == "move3":
+                    pokemon_number = 2
+                elif self.action == "move4":
+                    pokemon_number = 3
+                if pokemon_number:
+                    Game.switch_move(Game.current_pokemon, pokemon_number)
             #badly coded to increase and decrease points
             if Game.current_pokemon.points < 15:
                 if self.action == "-health":
@@ -218,11 +230,38 @@ class Button():
                     pokemon5 = random.choice(pokemon.Pokemon.All_Pokemon)
                 new_team = pokemon.Team([pokemon1, pokemon2, pokemon3, pokemon4, pokemon5])
                 Game.Pokemon_List = new_team.list
-            elif self.action == "normal":
-                Game.opponent = pokemon.normal_gym
-                Game.Opponent_Pokemon_List = Game.opponent.list
-                Game.current_screen_number = 2
+            if Game.current_screen_number == 4:
+                if self.action == "normal":
+                    Game.opponent = pokemon.normal_gym
+                elif self.action == "fight":
+                    Game.opponent = pokemon.fight_gym
+                elif self.action == "ice":
+                    Game.opponent = pokemon.ice_gym
+                elif self.action == "poison":
+                    Game.opponent = pokemon.poison_gym
+                elif self.action == "ground":
+                    Game.opponent = pokemon.ground_gym
+                elif self.action == "fire":
+                    Game.opponent = pokemon.fire_gym
+                elif self.action == "psychic":
+                    Game.opponent = pokemon.psychic_gym
+                elif self.action == "grass":
+                    Game.opponent = pokemon.grass_gym
+                elif self.action == "electric":
+                    Game.opponent = pokemon.electric_gym
+                if isinstance(self.action, str):    
+                    Game.Opponent_Pokemon_List = Game.opponent.list
+                    Game.current_screen_number = 2
+            if self.action == "previous_turn" and Game.turn_index > 0:
+                Game.turn_index -= 1
+
+            if self.action == "next_turn" and Game.turn_index < Game.current_turn - 1:
+                Game.turn_index += 1
 
         elif self.action == None:
             pass
+        Button.time = time.time()
         self.mouse_off()
+
+
+

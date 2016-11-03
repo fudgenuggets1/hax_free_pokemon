@@ -32,6 +32,7 @@ class Type():
         self.not_effective_list = []
         self.super_effective_list = []
         self.no_effect_list = []
+        self.image = pygame.image.load('images/' + self.name + '.png')
         Type.type_list.append(self)
 
 

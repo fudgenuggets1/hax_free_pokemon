@@ -4,20 +4,31 @@ from pokemon_types import *
 
 class Move():
     all_moves = []
-    def __init__(self, power, name, move_type, contact):
+    def __init__(self, power, name, move_type, contact, priority=0, effect=None):
 
         self.power = power
         self.name = name
         self.type = move_type
         self.contact = contact
+        if self.contact == "physical":
+            self.contact_image = pygame.image.load('images/physical.png')
+        elif self.contact == "special":
+            self.contact_image = pygame.image.load('images/special.png')
+        self.priority = priority
+        self.effect = effect
         Move.all_moves.append(self)
 
 class Hidden_Power(Move):
 
     def __init__(self, move_type):
-        Move.__init__(self, power=60, name="Hidden Power " + move_type.name, move_type = move_type, contact="special")
+        Move.__init__(self, power=60, name="Hidden Power", move_type = move_type, contact="special")
 
 # Normal
+double_edge = Move(120, "Double Edge", Normal, "physical", 0, "recoil")
+fake_out = Move(40, "Fake Out", Normal, "physical", 3, "flinch")
+feint = Move(30, "Feint", Normal, "physical", 2)
+quick_attack = Move(40, "Quick Attack", Normal, "physical", 1)
+extreme_speed = Move(40, "Extreme Speed", Normal, "physical", 2)
 tri_attack = Move(80, "Tri Attack", Normal, "special")
 mega_kick = Move(120, "Mega Kick", Normal, "physical")
 boomburst = Move(140, "Boomburst", Normal, "special")
@@ -27,12 +38,16 @@ thrash = Move(90, "Return", Normal, "physical")
 hyper_voice = Move(90, "Hyper Voice", Normal, "special")
 Return = Move(102, "Return", Normal, "physical")
 ### F I G H T
+drain_punch = Move(75, "Drain Punch", Fight, "physical", 0, "drain")
+mach_punch = Move(40, "Mach Punch", Fight, "physical", 1)
+vacuum_wave = Move(40, "Vacuum Wave", Fight, "special", 1)
 sky_uppercut = Move(85, "Sky Uppercut", Fight, "physical")
 jump_kick = Move(100, "Jump Kick", Fight, "physical")
 cross_chop = Move(100, "Cross Chop", Fight, "physical")
 hidden_power_fight = Hidden_Power(Fight)
 brick_break = Move(75, "Brick Break", Fight, "physical")
 #### F L Y I N G
+brave_bird = Move(120, "Brave Bird", Flying, "physical", 0, "recoil")
 air_cutter = Move(60, "Air Cutter", Flying, "special")
 hurricane = Move(110, "Hurricane", Flying, "special")
 hidden_power_flying = Hidden_Power(Flying)
@@ -56,20 +71,24 @@ power_gem = Move(80, "Power Gem", Rock, "special")
 ancient_power = Move(60, "Ancient Power", Rock, "special")
 rock_slide = Move(75, "Rock Slide", Rock, "physical")
 #### B U G
+u_turn = Move(70, "U-Turn", Bug, "physical", 0, "switch")
 megahorn = Move(120, "Megahorn", Bug, "physical")
 bug_buzz = Move(90, "Bug Buzz", Bug, "special")
 signal_beam = Move(75, "Signal Beam", Bug, "special")
 x_scissor = Move(80, "X-Scissor", Bug, "physical")
 # Ghost
+shadow_sneak = Move(40, "Shadow Sneak", Ghost, "physical", 1)
 shadow_ball = Move(80, "Shadow Ball", Ghost, "special")
 shadow_claw = Move(70, "Shadow Claw", Ghost, "physical")
 shadow_punch = Move(60, "Shadow Punch", Ghost, "physical")
 ### S T E E L
+bullet_punch = Move(40, "Bullet Punch", Steel, "physical", 1)
 steel_wing = Move(70, "Steel Wing", Steel, "physical")
 iron_head = Move(80, "Iron Head", Steel, "physical")
 flash_cannon = Move(80, "Flash Cannon", Steel, "special")
 iron_tail = Move(100, "Iron Tail", Steel, "physical")
 #### F I R E
+flare_blitz = Move(120, "Flare Blitz", Fire, "physical", 0, "recoil")
 heat_wave = Move(95, "Heat Wave", Fire, "special")
 blaze_kick = Move(85, "Blaze Kick", Fire, "physical")
 flame_wheel = Move(60, "Flame Wheel", Fire, "physical")
@@ -78,6 +97,7 @@ hidden_power_fire = Hidden_Power(Fire)
 fire_punch = Move(75, "Fire Punch", Fire, "physical")
 flamethrower = Move(90, "Flamethrower", Fire, "special")
 #### W A T E R
+aqua_jet = Move(40, "Aqua Jet", Water, "physical", 1)
 crabhammer = Move(100, "Crabhammer", Water, "physical")
 razor_shell = Move(75, "Razor Shell", Water, "physical")
 aqua_tail = Move(90, "Aqua Tail", Water, "physical")
@@ -86,6 +106,7 @@ waterfall = Move(80, "Waterfall", Water, "physical")
 surf = Move(90, "Surf", Water, "special")
 hidden_power_water = Hidden_Power(Water)
 ### G R A S S
+wood_hammer = Move(120, "Wood Hammer", Grass, "physical", 0, "recoil")
 magical_leaf = Move(60, "Magical Leaf", Grass, "special")
 power_whip = Move(120, "Power Whip", Grass, "physical")
 seed_bomb = Move(80, "Seed Bomb", Grass, "physical")
@@ -93,6 +114,8 @@ hidden_power_grass = Hidden_Power(Grass)
 leaf_blade = Move(90, "Leaf Blade", Grass, "physical")
 energy_ball = Move(90, "Energy Ball", Grass, "special")
 ### E L E C T R I C
+volt_tackle = Move(120, "Volt Tackle", Electric, "physical", 0, "recoil")
+wild_charge = Move(90, "Wild Charge", Electric, "physical", 0, "recoil")
 spark = Move(65, "Spark", Electric, "physical")
 thunderbolt = Move(90, "Thunderbolt", Electric, "special")
 thunder_punch = Move(75, "Thunder Punch", Electric, "physical")
@@ -101,6 +124,7 @@ thunder_fang = Move(65, "Thunder Fang", Electric, "physical")
 zen_headbutt = Move(80, "Zen Headbutt", Psychic, "physical")
 psychic = Move(90, "Psychic", Psychic, "special")
 ### I C E
+ice_shard = Move(40, "Ice Shard", Ice, "special", 1)
 icicle_spear = Move(87, "Icicle Spear", Ice, "physical")
 hidden_power_ice = Hidden_Power(Ice)
 ice_punch = Move(75, "Ice Punch", Ice, "physical")
@@ -111,10 +135,11 @@ dragon_rush = Move(100, "Dragon Rush", Dragon, "physical")
 dragon_pulse = Move(70, "Dragon Pulse", Dragon, "special")
 dragon_claw = Move(80, "Dragon Claw", Dragon, "physical")
 #### D A R K
+sucker_punch = Move(80, "Sucker Punch", Dark, "physical", 1, "sucker_punch")
 night_slash = Move(70, "Night Slash", Dark, "physical")
 dark_pulse = Move(80, "Dark Pulse", Dark, "special")
 hidden_power_dark = Hidden_Power(Dark)
-bite = Move(60, "bite", Dark, "physical")
+bite = Move(60, "Bite", Dark, "physical")
 crunch = Move(80, "Crunch", Dark, "physical")
 # Fairy
 hidden_power_fairy = Hidden_Power(Fairy)
@@ -133,6 +158,8 @@ def hp_calc(base_stat, points=0):
 class Pokemon():
 
     All_Pokemon = []
+    Pokeball = pygame.image.load('images/pokeball.png')
+    icon_x = pygame.image.load('images/icon_x.png')
 
     def __init__(self, health, attack, defense, special_attack, special_defense, speed,
     ptype1, name, front_image, back_image, ptype2=None):
@@ -173,6 +200,7 @@ class Pokemon():
         self.special_attack_points = 0
         self.special_defense_points = 0
         self.speed_points = 0
+        self.first_turn = True
         #Pokemon.All_Pokemon.append(self)
 
     @staticmethod
@@ -191,10 +219,6 @@ class Pokemon():
             pokemon.special_attack = stat_calc(pokemon.base_special_attack, pokemon.special_attack_points)
             pokemon.special_defense = stat_calc(pokemon.base_special_defense, pokemon.special_defense_points)
             pokemon.speed = stat_calc(pokemon.base_speed, pokemon.speed_points)
-            #pokemon.move1 = pokemon.move_set[0]
-            #pokemon.move2 = pokemon.move_set[1]
-            #pokemon.move3 = pokemon.move_set[2]
-            #pokemon.move4 = pokemon.move_set[3]
 
 
 class Team():
@@ -209,13 +233,19 @@ class Team():
 class Opponent():
     opponents = []
     All_Pokemon = []
-    gym_leaders = []
     def __init__(self, pokemon, number=0):
-
         self.list = pokemon
         self.pokemon_number = number
         self.pokemon = pokemon[number]
         Opponent.opponents.append(self)
+
+
+class Gym_Leader(Opponent):
+    s = []
+    def __init__(self, pokemon, name):
+        Opponent.__init__(self, pokemon)
+        self.name = name
+        Gym_Leader.s.append(self)
 
 
 class Bulbasaur(Pokemon):
@@ -266,12 +296,12 @@ class Squirtle(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=21, attack=23, defense=31, special_attack=24, special_defense=30, speed=21,
         ptype1=Water, name="Squirtle", front_image=Squirtle.front_image, back_image=Squirtle.back_image)
-        self.move1 = waterfall
+        self.move1 = aqua_jet
         self.move2 = surf
-        self.move3 = ice_punch
+        self.move3 = ice_beam
         self.move4 = iron_tail
         self.move_list = [iron_tail, surf, waterfall, ice_punch, ice_beam, water_gun, brick_break, Return]
-        self.move_set = [waterfall, surf, ice_punch, iron_tail]
+        self.move_set = [aqua_jet, surf, ice_beam, iron_tail]
 
 
 class Wartortle(Pokemon):
@@ -395,9 +425,9 @@ class Pidgey(Pokemon):
         self.move1 = Return
         self.move2 = aerial_ace
         self.move3 = hidden_power_ground
-        self.move4 = boomburst
-        self.move_list = [Return, aerial_ace, hidden_power_ground, boomburst, air_slash, scratch]
-        self.move_set = [Return, aerial_ace, hidden_power_ground, boomburst]
+        self.move4 = u_turn
+        self.move_list = [Return, aerial_ace, hidden_power_ground, u_turn, boomburst, air_slash, scratch]
+        self.move_set = [Return, aerial_ace, hidden_power_ground, u_turn]
 
 
 class Pidgeotto(Pokemon):
@@ -443,9 +473,9 @@ class Rattata(Pokemon):
         self.move1 = Return
         self.move2 = crunch
         self.move3 = fire_fang
-        self.move4 = zen_headbutt
-        self.move_list = [Return, crunch, fire_fang, zen_headbutt, bite, Return, scratch, boomburst, hidden_power_ground]
-        self.move_set = [Return, crunch, fire_fang, zen_headbutt]
+        self.move4 = u_turn
+        self.move_list = [Return, crunch, fire_fang, u_turn, zen_headbutt, bite, Return, scratch, boomburst, hidden_power_ground]
+        self.move_set = [Return, crunch, fire_fang, u_turn]
 
 
 class Raticate(Pokemon):
@@ -455,9 +485,9 @@ class Raticate(Pokemon):
         self.move1 = Return
         self.move2 = crunch
         self.move3 = fire_fang
-        self.move4 = zen_headbutt
-        self.move_list = [Return, crunch, fire_fang, zen_headbutt, bite, Return, scratch, boomburst, hidden_power_ground]
-        self.move_set = [Return, crunch, fire_fang, zen_headbutt]
+        self.move4 = u_turn
+        self.move_list = [Return, crunch, fire_fang, u_turn, zen_headbutt, bite, Return, scratch, boomburst, hidden_power_ground]
+        self.move_set = [Return, crunch, fire_fang, u_turn]
 
 
 class Spearow(Pokemon):
@@ -467,9 +497,9 @@ class Spearow(Pokemon):
         self.move1 = drill_peck
         self.move2 = Return
         self.move3 = drill_run
-        self.move4 = Return
-        self.move_list = [drill_peck, Return, drill_run, Return, air_slash, aerial_ace]
-        self.move_set = [drill_peck, Return, drill_run, Return]
+        self.move4 = hidden_power_rock
+        self.move_list = [drill_peck, Return, drill_run, hidden_power_rock, air_slash, aerial_ace]
+        self.move_set = [drill_peck, Return, drill_run, hidden_power_rock]
 
 
 class Fearow(Pokemon):
@@ -479,9 +509,9 @@ class Fearow(Pokemon):
         self.move1 = drill_peck
         self.move2 = Return
         self.move3 = drill_run
-        self.move4 = Return
-        self.move_list = [drill_peck, Return, drill_run, Return, air_slash, aerial_ace]
-        self.move_set = [drill_peck, Return, drill_run, Return]
+        self.move4 = hidden_power_rock
+        self.move_list = [drill_peck, Return, drill_run, hidden_power_rock, air_slash, aerial_ace]
+        self.move_set = [drill_peck, Return, drill_run, hidden_power_rock]
 
 
 class Ekans(Pokemon):
@@ -949,11 +979,11 @@ class Persian(Pokemon):
         Pokemon.__init__(self, health=22, attack=24, defense=21, special_attack=22, special_defense=22, speed=39,
         ptype1=Normal, name="Persian", front_image="images/persian_front.png", back_image="images/persian_back.png")
         self.move1 = Return
-        self.move2 = hyper_voice
+        self.move2 = fake_out
         self.move3 = bite
-        self.move4 = hidden_power_ground
-        self.move_list = [Return, hyper_voice, bite, hidden_power_ground, fire_fang]
-        self.move_set = [Return, hyper_voice, bite, hidden_power_ground]
+        self.move4 = feint
+        self.move_list = [Return, fake_out, bite, feint, hyper_voice, hidden_power_ground, fire_fang]
+        self.move_set = [Return, fake_out, bite, feint]
 
 
 class Psyduck(Pokemon):
@@ -1854,12 +1884,12 @@ class Kangaskhan(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=32, attack=29, defense=24, special_attack=13, special_defense=24, speed=28,
         ptype1=Normal, name="Kangaskhan", front_image="images/kangaskhan_front.png", back_image="images/kangaskhan_back.png")
-        self.move1 = mega_kick
-        self.move2 = earthquake
-        self.move3 = brick_break
-        self.move4 = iron_tail
-        self.move_list = [mega_kick, earthquake, brick_break, iron_tail, Return, scratch, shadow_claw, fire_punch, thunder_punch, ice_punch]
-        self.move_set = [mega_kick, earthquake, brick_break, iron_tail]
+        self.move1 = double_edge
+        self.move2 = drain_punch
+        self.move3 = sucker_punch
+        self.move4 = fake_out
+        self.move_list = [double_edge, drain_punch, sucker_punch, fake_out, earthquake, mega_kick, brick_break, iron_tail, Return, scratch, shadow_claw, fire_punch, thunder_punch, ice_punch]
+        self.move_set = [double_edge, drain_punch, sucker_punch, fake_out]
 
 
 class Horsea(Pokemon):
@@ -1977,9 +2007,9 @@ class Scyther(Pokemon):
         self.move1 = aerial_ace
         self.move2 = x_scissor
         self.move3 = brick_break
-        self.move4 = night_slash
-        self.move_list = [aerial_ace, x_scissor, brick_break, night_slash, Return, bug_buzz, air_slash, steel_wing]
-        self.move_set = [aerial_ace, x_scissor, brick_break, night_slash]
+        self.move4 = u_turn
+        self.move_list = [aerial_ace, x_scissor, brick_break, u_turn, night_slash, Return, bug_buzz, air_slash, steel_wing]
+        self.move_set = [aerial_ace, x_scissor, brick_break, u_turn]
 
 
 class Scizor(Pokemon):
@@ -2032,10 +2062,10 @@ class Elekid(Pokemon):
         ptype1=Electric, name="Elekid", front_image="images/elekid_front.png", back_image="images/elekid_back.png")
         self.move1 = thunderbolt
         self.move2 = cross_chop
-        self.move3 = flamethrower
+        self.move3 = fire_punch
         self.move4 = hidden_power_grass
-        self.move_list = [thunderbolt, cross_chop, flamethrower, hidden_power_grass, hidden_power_ground, fire_punch, ice_punch, mega_kick, signal_beam, thunder_punch]
-        self.move_set = [thunderbolt, cross_chop, flamethrower, hidden_power_grass]
+        self.move_list = [thunderbolt, cross_chop, fire_punch, hidden_power_grass, hidden_power_ground, fire_punch, ice_punch, mega_kick, signal_beam, thunder_punch]
+        self.move_set = [thunderbolt, cross_chop, fire_punch, hidden_power_grass]
 
 
 class Electabuzz(Pokemon):
@@ -2044,10 +2074,10 @@ class Electabuzz(Pokemon):
         ptype1=Electric, name="Electabuzz", front_image="images/electabuzz_front.png", back_image="images/electabuzz_back.png")
         self.move1 = thunderbolt
         self.move2 = cross_chop
-        self.move3 = flamethrower
+        self.move3 = fire_punch
         self.move4 = hidden_power_grass
-        self.move_list = [thunderbolt, cross_chop, flamethrower, hidden_power_grass, hidden_power_ground, fire_punch, ice_punch, mega_kick, signal_beam, thunder_punch, iron_tail]
-        self.move_set = [thunderbolt, cross_chop, flamethrower, hidden_power_grass]
+        self.move_list = [thunderbolt, cross_chop, fire_punch, hidden_power_grass, hidden_power_ground, fire_punch, ice_punch, mega_kick, signal_beam, thunder_punch, iron_tail]
+        self.move_set = [thunderbolt, cross_chop, fire_punch, hidden_power_grass]
 
 
 class Electivire(Pokemon):
@@ -2936,29 +2966,35 @@ Opponent.All_Pokemon = [
 ]
 
 # Player teams
+test_team = Team([scyther, chikorita, raticate, cleffa, starmie])
+
 ezpz_team = Team([machamp, slowpoke, kangaskhan, magnemite, abra])
-test_team = Team([abra, tangela, geodude, wartortle, charmeleon])
 first_tean = Team([squirtle, chikorita, charmander, jynx, pikachu])
 slow_team = Team([bonsly, munchlax, magnemite, sandslash, squirtle])
 blue = Team([pikachu, magnemite, farfetchd, jynx, primeape])
 starter_team = Team([venasaur, charizard, blastoise, raichu, meganium])
 # Opponent teams
+test_opponent = Opponent([opponent_abra, opponent_clefable, opponent_nidoranm, opponent_rhyperior, opponent_flareon])
+
 challenge = Opponent([opponent_geodude, opponent_mankey, opponent_munchlax, opponent_slowpoke, opponent_ghastly])
 challenge2 = Opponent([opponent_munchlax, opponent_mankey, opponent_ghastly, opponent_spearow, opponent_diglett])
-test_opponent = Opponent([opponent_mega_pidgeot, beedrill, ivysaur, wartortle, charmeleon])
 babies = Opponent([opponent_bulbasaur, opponent_charmander, opponent_squirtle, opponent_pikachu, opponent_chikorita])
 rival = Opponent([opponent_blastoise, opponent_venasaur, opponent_charizard, opponent_butterfree, opponent_pikachu])
 red = Opponent([opponent_butterfree, opponent_magneton, opponent_snorlax, opponent_sudowoodo, opponent_sandslash])
 opponent = Opponent([opponent_diglett, opponent_snorlax, opponent_bulbasaur, opponent_sandslash, opponent_primeape])
 # Gym Leader teams
-fight_gym = Opponent([opponent_hitmonlee, opponent_hitmontop, opponent_mankey, opponent_machamp, opponent_poliwrath])
-normal_gym = Opponent([opponent_tauros, opponent_kangaskhan, opponent_munchlax, opponent_spearow, opponent_rattata])
+fight_gym = Gym_Leader([opponent_hitmonlee, opponent_hitmonchan, opponent_mankey, opponent_machamp, opponent_poliwrath], "Fight")
+normal_gym = Gym_Leader([opponent_tauros, opponent_kangaskhan, opponent_munchlax, opponent_spearow, opponent_rattata], "Normal")
+ice_gym = Gym_Leader([opponent_dewgong, opponent_cloyster, opponent_articuno, opponent_jynx, opponent_lapras], "Ice")
+poison_gym = Gym_Leader([opponent_gengar, opponent_golbat, opponent_haunter, opponent_arbok, opponent_ghastly], "Poison")
+ground_gym = Gym_Leader([opponent_rhyhorn, opponent_dugtrio, opponent_nidoqueen, opponent_nidoking, opponent_rhydon], "Ground")
+fire_gym = Gym_Leader([opponent_growlithe, opponent_ponyta, opponent_rapidash, opponent_arcanine, opponent_moltres], "Fire")
+psychic_gym = Gym_Leader([opponent_kadabra, opponent_mrmime, opponent_alakazam, opponent_abra, opponent_espeon], "Psychic")
+grass_gym = Gym_Leader([opponent_victreebel, opponent_tangela, opponent_vileplume, opponent_tangrowth, opponent_oddish], "Grass")
+electric_gym = Gym_Leader([opponent_voltorb, opponent_electabuzz, opponent_raichu, opponent_light_ball_pikachu, opponent_magneton], "Electric")
+blue_gym = Gym_Leader([opponent_pidgeot, opponent, alakazam, opponent_rhydon, opponent_exeggutor, opponent_gyarados], "Blue")
+better_blue_gym = Gym_Leader([opponent_mega_pidgeot, opponent_abra, opponent_rhydon, opponent_exeggutor, opponent_gyarados], "Blue 2")
 
-# Gym Leaders list
-Opponent.gym_leaders = [
-    normal_gym,
-    fight_gym,
-]
 
 
 

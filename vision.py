@@ -7,7 +7,7 @@ WHITE = (255, 255, 255)
 BLUE = (0, 0, 200)
 GREEN = (0, 200, 0)
 RED = (200, 0, 0)
-PURPLE = (255, 0, 255)
+LIGHT_PURPLE = (255, 0, 255)
 ORANGE = (220, 120, 0)
 YELLOW = (200, 200, 0)
 BRIGHT_YELLOW = (255, 255, 0)
@@ -17,8 +17,16 @@ BRIGHT_BLUE = (0, 0, 255)
 BRIGHT_RED = (255, 0, 0)
 DARK_RED = (139, 0, 0)
 DODGER_BLUE = (44, 144, 255)
-BRIGHT_SNOW_WHITE = (238, 233, 233)
+BRIGHT_SNOW_WHITE = (228, 223, 223)
 SNOW_WHITE = (205, 201, 201)
+MAROON = (128, 0, 0)
+SKY_BLUE = (135, 206, 235)
+LIGHT_SKY_BLUE = (135, 206, 250)
+PURPLE = (148, 0, 211)
+TAN = (210, 180, 140)
+BURLY_WOOD = (222, 184, 135)
+DEEP_PINK = (255, 20, 147)
+HOT_PINK = (255, 105, 180)
 
 
 class Block(pygame.sprite.Sprite):
@@ -144,18 +152,22 @@ class Play_Screen(Visible):
             #[380, 230, 2, 125, GREEN],
             #[630, 230, 2, 127, GREEN],
             #[380, 355, 250 ,2, GREEN],
-            [0, 365, 640, 2, BLUE],
-            [515, 365, 2, 115, BLUE],
+            [0, 364, 640, 2, BLUE],
+            [0, 421, 510, 2, BLUE],
+            [510, 365, 2, 115, BLUE],
+            [255, 365, 2, 115, BLUE],
         ]
 
         buttons = [
             ["Exit", 590, 450, 45, 25, RED, BRIGHT_RED, 0],
             ["OK", 520, 370, 75, 30, BLUE, BRIGHT_BLUE, "ok"],
             ["Party", 520, 410, 75, 30, GREEN, BRIGHT_GREEN, "party"],
-            [" ", 15, 380, 200, 35, ORANGE, BRIGHT_ORANGE, "move1"],
-            [" ", 15, 430, 200, 35, ORANGE, BRIGHT_ORANGE, "move3"],
-            [" ", 240, 380, 200, 35, ORANGE, BRIGHT_ORANGE, "move2"],
-            [" ", 240, 430, 200, 35, ORANGE, BRIGHT_ORANGE, "move4"]
+            [" ", 2, 366, 253, 55, ORANGE, BRIGHT_ORANGE, "move1"],
+            [" ", 2, 423, 253, 55, ORANGE, BRIGHT_ORANGE, "move3"],
+            [" ", 257, 366, 253, 55, ORANGE, BRIGHT_ORANGE, "move2"],
+            [" ", 257, 423, 253, 55, ORANGE, BRIGHT_ORANGE, "move4"],
+            ["<", 700, 25, 30, 30, GREEN, BRIGHT_GREEN, "previous_turn"],
+            [">", 875, 25, 30, 30, GREEN, BRIGHT_GREEN, "next_turn"]
         ]
 
         for item in blocks:
@@ -191,8 +203,16 @@ class Gym_Leaders_Screen(Visible):
 
         buttons = [
             ["Exit", 590, 450, 45, 25, RED, BRIGHT_RED, 0],
-            ["Normal", 100, 100, 150, 30, SNOW_WHITE, BRIGHT_SNOW_WHITE, "normal"],
-            #["Normal", 100, 100, 150, 30, YELLOW, BRIGHT_YELLOW, "normal"],
+            ["Normal", 50, 75, 160, 30, SNOW_WHITE, BRIGHT_SNOW_WHITE, "normal"],
+            ["Fight", 50, 115, 160, 30, DARK_RED, MAROON, "fight"],
+            ["Ice", 50, 155, 160, 30, SKY_BLUE, LIGHT_SKY_BLUE, "ice"],
+            ["Poison", 50, 195, 160, 30, PURPLE, LIGHT_PURPLE, "poison"],
+            ["Ground", 50, 235, 160, 30, TAN, BURLY_WOOD, "ground"],
+            ["Fire", 50, 275, 160, 30, RED, BRIGHT_RED, "fire"],
+            ["Psychic", 50, 315, 160, 30, DEEP_PINK, HOT_PINK, "psychic"],
+            ["Grass", 50, 355, 160, 30, GREEN, BRIGHT_GREEN, "grass"],
+            ["Electric", 50, 395, 160, 30, YELLOW, BRIGHT_YELLOW, "electric"],
+
         ]
 
         for item in buttons:

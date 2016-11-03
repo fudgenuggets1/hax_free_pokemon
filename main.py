@@ -17,7 +17,7 @@ BRIGHT_RED = (255, 0, 0)
 
 pygame.init()
 
-screen = pygame.display.set_mode((640, 480))
+screen = pygame.display.set_mode((960, 480))
 
 clock = pygame.time.Clock()
 FPS = 20
