@@ -1,6 +1,6 @@
 import pygame, math, random
 from pokemon_types import *
-
+from pokemon_items import *
 
 class Move():
     all_moves = []
@@ -14,6 +14,8 @@ class Move():
             self.contact_image = pygame.image.load('images/physical.png')
         elif self.contact == "special":
             self.contact_image = pygame.image.load('images/special.png')
+        elif self.contact == None:
+            self.contact_image = pygame.image.load('images/other.png')
         self.priority = priority
         self.effect = effect
         Move.all_moves.append(self)
@@ -21,8 +23,22 @@ class Move():
 class Hidden_Power(Move):
 
     def __init__(self, move_type):
-        Move.__init__(self, power=60, name="Hidden Power", move_type = move_type, contact="special")
+        Move.__init__(self, power=60, name="Hidden Power", move_type=move_type, contact="special")
 
+class Non_Damaging_Move(Move):
+
+    def __init__(self, name, move_type, effect, priority=0):
+        Move.__init__(self, power=0, name=name, move_type=move_type, contact=None, priority=priority, effect=effect)
+
+class Entry_Hazard_Damage():
+
+    def __init__(self, power, name, move_type, effect=None):
+        self.power = power
+        self.name = name
+        self.type = move_type
+        self.effect = effect
+
+""" M O V E S """
 # Normal
 double_edge = Move(120, "Double Edge", Normal, "physical", 0, "recoil")
 fake_out = Move(40, "Fake Out", Normal, "physical", 3, "flinch")
@@ -59,19 +75,25 @@ drill_peck = Move(80, "Drill Peck", Flying, "physical")
 sludge_wave = Move(95, "Sludge Wave", Poison, "special")
 sludge_bomb = Move(90, "Sludge Bomb", Poison, "special")
 poison_jab = Move(80, "Poison Jab", Poison, "physical")
-# Ground
+### G R O U N D
 drill_run = Move(80, "Drill Run", Ground, "physical")
 hidden_power_ground = Hidden_Power(Ground)
 earthquake = Move(100, "Earthquake", Ground, "physical")
 earth_power = Move(90, "Earth Power", Ground, "special")
+
+spikes = Non_Damaging_Move("Spikes", Ground, "spikes")
 #### R O C K
 stone_edge = Move(100, "Stone Edge", Rock, "physical")
 hidden_power_rock = Hidden_Power(Rock)
 power_gem = Move(80, "Power Gem", Rock, "special")
 ancient_power = Move(60, "Ancient Power", Rock, "special")
 rock_slide = Move(75, "Rock Slide", Rock, "physical")
+
+stealth_rock = Non_Damaging_Move("Stealth Rock", Rock, "stealth rock")
+stealth_rock_damage = Entry_Hazard_Damage(12.5, "Stealth Rock", Rock)
+
 #### B U G
-u_turn = Move(70, "U-Turn", Bug, "physical", 0, "switch")
+u_turn = Move(70, "U-turn", Bug, "physical", 0, "switch")
 megahorn = Move(120, "Megahorn", Bug, "physical")
 bug_buzz = Move(90, "Bug Buzz", Bug, "special")
 signal_beam = Move(75, "Signal Beam", Bug, "special")
@@ -114,6 +136,7 @@ hidden_power_grass = Hidden_Power(Grass)
 leaf_blade = Move(90, "Leaf Blade", Grass, "physical")
 energy_ball = Move(90, "Energy Ball", Grass, "special")
 ### E L E C T R I C
+volt_switch = Move(70, "Volt-switch", Electric, "special", 0, "switch")
 volt_tackle = Move(120, "Volt Tackle", Electric, "physical", 0, "recoil")
 wild_charge = Move(90, "Wild Charge", Electric, "physical", 0, "recoil")
 spark = Move(65, "Spark", Electric, "physical")
@@ -141,17 +164,23 @@ dark_pulse = Move(80, "Dark Pulse", Dark, "special")
 hidden_power_dark = Hidden_Power(Dark)
 bite = Move(60, "Bite", Dark, "physical")
 crunch = Move(80, "Crunch", Dark, "physical")
+
+taunt = Non_Damaging_Move("Taunt", Dark, "taunt")
 # Fairy
 hidden_power_fairy = Hidden_Power(Fairy)
 moonblast = Move(95, "Moonblast", Fairy, "special")
 dazzling_gleam = Move(80, "Dazzling Gleam", Fairy, "special")
 play_rough = Move(90, "Play Rough", Fairy, "physical")
 
+
+level = 20
 def stat_calc(base_stat, points=0):
-    stat = (2 * base_stat + points) + 18
+    #stat = (2 * base_stat + points) + 18
+    stat = ( ( 2 * (base_stat * 4) + 31) * level / 100 + 5 + points)
     return stat
 def hp_calc(base_stat, points=0):
-    hp = (2 * base_stat + points) + 34
+    #hp = (2 * base_stat + points) + 34
+    hp = ( ( 2 * (base_stat * 4) + 31) * level / 100 + level + 10 + points)
     return hp
 
 
@@ -184,7 +213,7 @@ class Pokemon():
         self.move4 = None
         self.name = name
         self.fainted = False
-        self.points = 15
+        self.points = 25
         self.type = ptype1
         self.move_list = []
         self.move1_number = 0
@@ -201,12 +230,13 @@ class Pokemon():
         self.special_defense_points = 0
         self.speed_points = 0
         self.first_turn = True
+        self.item = Leftovers
         #Pokemon.All_Pokemon.append(self)
 
     @staticmethod
     def update():
         for pokemon in Pokemon.All_Pokemon:
-            pokemon.points = 15
+            pokemon.points = 25
             pokemon.points -= pokemon.health_points
             pokemon.points -= pokemon.attack_points
             pokemon.points -= pokemon.defense_points
@@ -1502,10 +1532,10 @@ class Cloyster(Pokemon):
         ptype1=Water, name="Cloyster", front_image="images/cloyster_front.png", back_image="images/cloyster_back.png", ptype2=Ice)
         self.move1 = razor_shell
         self.move2 = icicle_spear
-        self.move3 = Return
+        self.move3 = spikes
         self.move4 = hidden_power_ground
-        self.move_list = [razor_shell, icicle_spear, Return, hidden_power_ground, surf, ice_beam]
-        self.move_set = [razor_shell, icicle_spear, Return, hidden_power_ground]
+        self.move_list = [razor_shell, icicle_spear, spikes, hidden_power_ground, surf, ice_beam, Return]
+        self.move_set = [razor_shell, icicle_spear, spikes, hidden_power_ground]
 
 
 class Ghastly(Pokemon):
@@ -1550,10 +1580,10 @@ class Onix(Pokemon):
         ptype1=Ground, name="Onix", front_image="images/onix_front.png", back_image="images/onix_back.png", ptype2=Rock)
         self.move1 = earthquake
         self.move2 = rock_slide
-        self.move3 = iron_tail
+        self.move3 = stealth_rock
         self.move4 = hidden_power_grass
-        self.move_list = [earthquake, rock_slide, iron_tail, hidden_power_grass]
-        self.move_set = [earthquake, rock_slide, iron_tail, hidden_power_grass]
+        self.move_list = [earthquake, rock_slide, stealth_rock, hidden_power_grass, iron_tail]
+        self.move_set = [earthquake, rock_slide, stealth_rock, hidden_power_grass]
 
 
 class Steelix(Pokemon):
@@ -2062,10 +2092,10 @@ class Elekid(Pokemon):
         ptype1=Electric, name="Elekid", front_image="images/elekid_front.png", back_image="images/elekid_back.png")
         self.move1 = thunderbolt
         self.move2 = cross_chop
-        self.move3 = fire_punch
+        self.move3 = volt_switch
         self.move4 = hidden_power_grass
-        self.move_list = [thunderbolt, cross_chop, fire_punch, hidden_power_grass, hidden_power_ground, fire_punch, ice_punch, mega_kick, signal_beam, thunder_punch]
-        self.move_set = [thunderbolt, cross_chop, fire_punch, hidden_power_grass]
+        self.move_list = [thunderbolt, cross_chop, volt_switch, hidden_power_grass, fire_punch, hidden_power_ground, fire_punch, ice_punch, mega_kick, signal_beam, thunder_punch]
+        self.move_set = [thunderbolt, cross_chop, volt_switch, hidden_power_grass]
 
 
 class Electabuzz(Pokemon):
@@ -2966,7 +2996,7 @@ Opponent.All_Pokemon = [
 ]
 
 # Player teams
-test_team = Team([scyther, chikorita, raticate, cleffa, starmie])
+test_team = Team([cloyster, chikorita, raticate, cleffa, starmie])
 
 ezpz_team = Team([machamp, slowpoke, kangaskhan, magnemite, abra])
 first_tean = Team([squirtle, chikorita, charmander, jynx, pikachu])
@@ -2974,7 +3004,7 @@ slow_team = Team([bonsly, munchlax, magnemite, sandslash, squirtle])
 blue = Team([pikachu, magnemite, farfetchd, jynx, primeape])
 starter_team = Team([venasaur, charizard, blastoise, raichu, meganium])
 # Opponent teams
-test_opponent = Opponent([opponent_abra, opponent_clefable, opponent_nidoranm, opponent_rhyperior, opponent_flareon])
+test_opponent = Opponent([opponent_cloyster, opponent_clefable, opponent_nidoranm, opponent_rhyperior, opponent_flareon])
 
 challenge = Opponent([opponent_geodude, opponent_mankey, opponent_munchlax, opponent_slowpoke, opponent_ghastly])
 challenge2 = Opponent([opponent_munchlax, opponent_mankey, opponent_ghastly, opponent_spearow, opponent_diglett])

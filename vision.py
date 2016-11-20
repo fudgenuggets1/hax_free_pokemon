@@ -27,6 +27,9 @@ TAN = (210, 180, 140)
 BURLY_WOOD = (222, 184, 135)
 DEEP_PINK = (255, 20, 147)
 HOT_PINK = (255, 105, 180)
+TOMATO = (200, 100, 100)
+TOMATO_GREEN = (100, 200, 100)
+GRAY = (128, 128, 128)
 
 
 class Block(pygame.sprite.Sprite):
@@ -144,11 +147,11 @@ class Play_Screen(Visible):
         Visible.__init__(self)
 
         blocks = [
-            [10, 10, 200, 125, RED],
+            [10, 10, 200, 125, TOMATO],
             #[10, 10, 2, 125, RED],
             #[10, 135, 250, 2, RED],
             #[260, 10, 2, 127, RED],
-            [430, 230, 200, 125, GREEN],
+            [430, 230, 200, 125, TOMATO_GREEN],
             #[380, 230, 2, 125, GREEN],
             #[630, 230, 2, 127, GREEN],
             #[380, 355, 250 ,2, GREEN],
@@ -156,10 +159,12 @@ class Play_Screen(Visible):
             [0, 421, 510, 2, BLUE],
             [510, 365, 2, 115, BLUE],
             [255, 365, 2, 115, BLUE],
+            #[50, 65, 110, 12, RED],
+            #[470, 290, 110, 12, RED],
         ]
 
         buttons = [
-            ["Exit", 590, 450, 45, 25, RED, BRIGHT_RED, 0],
+            ["Exit", 900, 450, 45, 25, RED, BRIGHT_RED, 0],
             ["OK", 520, 370, 75, 30, BLUE, BRIGHT_BLUE, "ok"],
             ["Party", 520, 410, 75, 30, GREEN, BRIGHT_GREEN, "party"],
             [" ", 2, 366, 253, 55, ORANGE, BRIGHT_ORANGE, "move1"],

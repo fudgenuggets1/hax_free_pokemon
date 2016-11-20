@@ -35,11 +35,12 @@ class Button():
     def do_action(self):
         from game import Game
         if self.action != None:
-            if self.action in range(0, 5):
+            if self.action in range(0, 5): 
                 Game.previous_screen = Game.current_screen
                 Game.current_screen_number = self.action
                 if self.action == 0:
                     Game.reset()
+
             if not Game.pause and not Game.show_party:
                 if self.action == "move1":
                     Game.do_moves(Game.current_pokemon.move1)
@@ -49,8 +50,9 @@ class Button():
                     Game.do_moves(Game.current_pokemon.move3)
                 elif self.action == "move4":
                     Game.do_moves(Game.current_pokemon.move4)
-            elif self.action == "ok" and Game.pause and not Game.Pokemon_Fainted:
-                Game.pause = False
+            elif self.action == "ok":
+                if Game.pause and not Game.Pokemon_Fainted:
+                    Game.pause = False
 
             if not Game.pause and Game.show_party and not Game.Pokemon_Fainted:
                 pokemon_number = None
@@ -88,7 +90,7 @@ class Button():
                 if pokemon_number:
                     Game.switch_move(Game.current_pokemon, pokemon_number)
             #badly coded to increase and decrease points
-            if Game.current_pokemon.points < 15:
+            if Game.current_pokemon.points < 25:
                 if self.action == "-health":
                     if Game.current_pokemon.max_health > pokemon.hp_calc(Game.current_pokemon.base_health):
                         Game.current_pokemon.health_points -= 1
@@ -107,24 +109,25 @@ class Button():
                 elif self.action == "-speed":
                     if Game.current_pokemon.speed > pokemon.stat_calc(Game.current_pokemon.base_speed):
                         Game.current_pokemon.speed_points -= 1
+            max_points = 12
             if Game.current_pokemon.points > 0:
                 if self.action == "+health":
-                    if Game.current_pokemon.max_health < pokemon.hp_calc(Game.current_pokemon.base_health, 7):
+                    if Game.current_pokemon.max_health < pokemon.hp_calc(Game.current_pokemon.base_health, max_points):
                         Game.current_pokemon.health_points += 1
                 elif self.action == "+attack":
-                    if Game.current_pokemon.attack < pokemon.stat_calc(Game.current_pokemon.base_attack, 7):
+                    if Game.current_pokemon.attack < pokemon.stat_calc(Game.current_pokemon.base_attack, max_points):
                         Game.current_pokemon.attack_points += 1
                 elif self.action == "+defense":
-                    if Game.current_pokemon.defense < pokemon.stat_calc(Game.current_pokemon.base_defense, 7):
+                    if Game.current_pokemon.defense < pokemon.stat_calc(Game.current_pokemon.base_defense, max_points):
                         Game.current_pokemon.defense_points += 1
                 elif self.action == "+special_attack":
-                    if Game.current_pokemon.special_attack < pokemon.stat_calc(Game.current_pokemon.base_special_attack, 7):
+                    if Game.current_pokemon.special_attack < pokemon.stat_calc(Game.current_pokemon.base_special_attack, max_points):
                         Game.current_pokemon.special_attack_points += 1
                 elif self.action == "+special_defense":
-                    if Game.current_pokemon.special_defense < pokemon.stat_calc(Game.current_pokemon.base_special_defense, 7):
+                    if Game.current_pokemon.special_defense < pokemon.stat_calc(Game.current_pokemon.base_special_defense, max_points):
                         Game.current_pokemon.special_defense_points += 1
                 elif self.action == "+speed":
-                    if Game.current_pokemon.speed < pokemon.stat_calc(Game.current_pokemon.base_speed, 7):
+                    if Game.current_pokemon.speed < pokemon.stat_calc(Game.current_pokemon.base_speed, max_points):
                         Game.current_pokemon.speed_points += 1
 
 

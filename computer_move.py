@@ -89,23 +89,25 @@ def stay_alive(pokemon, opponent, opponent_party):
 def damage_calc(attacker, defender, move, type_advantage):
 		# Damage = (0.44*(attack/defense)*move power)*modifier
 		# Modifier = STAB * Type effectiveness * other(items, abilities)
-		if move.contact == "physical":
-			attack = attacker.attack
-			defense = defender.defense
-		elif move.contact == "special":
-			attack = attacker.special_attack
-			defense = defender.special_defense
-		power = move.power
+		damage = 0
+		if move.power > 0:	
+			if move.contact == "physical":
+				attack = attacker.attack
+				defense = defender.defense
+			elif move.contact == "special":
+				attack = attacker.special_attack
+				defense = defender.special_defense
+			power = move.power
 
-		#STAB
-		STAB = 1
-		if attacker.type.name == move.type.name:
-			STAB = 1.5
-		if attacker.type2 != None and STAB == 1:
-			if attacker.type2.name == move.type.name:
+			#STAB
+			STAB = 1
+			if attacker.type.name == move.type.name:
 				STAB = 1.5
-		# Damage calculation
-		damage = math.floor(0.2 * (attack / defense) * power + 2) * (type_advantage * STAB)
+			if attacker.type2 != None and STAB == 1:
+				if attacker.type2.name == move.type.name:
+					STAB = 1.5
+			# Damage calculation
+			damage = math.floor(0.2 * (attack / defense) * power + 2) * (type_advantage * STAB)
 		return damage
 
 def move_type_advantage(pokemon, move):
