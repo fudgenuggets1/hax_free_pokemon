@@ -27,12 +27,14 @@ game = Game()
 
 while True:
 
-    screen.fill((120,120,120))
+	screen = pygame.display.get_surface()
 
-    Game.update(screen)
-    interaction(screen)
+	screen.fill((120,120,120))
 
-    pygame.display.set_caption("Hax Free Pokemon")
-    pygame.display.flip()
-    clock.tick(FPS)
-    total_frames += 1
+	Game.update(screen)
+	interaction(screen)
+
+	pygame.display.set_caption("Hax Free Pokemon")
+	pygame.display.flip()
+	clock.tick(FPS)
+	total_frames += 1

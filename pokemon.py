@@ -231,6 +231,7 @@ class Pokemon():
         self.speed_points = 0
         self.first_turn = True
         self.item = Leftovers
+        self.types = [self.type, self.type2]
         #Pokemon.All_Pokemon.append(self)
 
     @staticmethod
