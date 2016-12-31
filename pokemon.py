@@ -231,7 +231,6 @@ class Pokemon():
         self.speed_points = 0
         self.first_turn = True
         self.item = Leftovers
-        self.types = [self.type, self.type2]
         #Pokemon.All_Pokemon.append(self)
 
     @staticmethod
@@ -1722,7 +1721,7 @@ class Thick_Club_Cubone(Pokemon):
 class Marowak(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=21, attack=28, defense=39, special_attack=18, special_defense=28, speed=16,
-        ptype1=Ground, name="Marowak", front_image="images/Marowak_front.png", back_image="images/Marowak_back.png")
+        ptype1=Ground, name="Marowak", front_image="images/marowak_front.png", back_image="images/marowak_back.png")
         self.move1 = earthquake
         self.move2 = rock_slide
         self.move3 = thunder_punch
@@ -1734,7 +1733,7 @@ class Marowak(Pokemon):
 class Thick_Club_Marowak(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=18, attack=48, defense=33, special_attack=14, special_defense=24, speed=13,
-        ptype1=Ground, name="Thick Club Marowak", front_image="images/Marowak_front.png", back_image="images/Marowak_back.png")
+        ptype1=Ground, name="Thick Club Marowak", front_image="images/marowak_front.png", back_image="images/marowak_back.png")
         self.move1 = earthquake
         self.move2 = rock_slide
         self.move3 = thunder_punch
@@ -1818,7 +1817,7 @@ class Koffing(Pokemon):
 class Weezing(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=20, attack=28, defense=37, special_attack=26, special_defense=21, speed=18,
-        ptype1=Poison, name="Weezing", front_image="images/Weezing_front.png", back_image="images/Weezing_back.png")
+        ptype1=Poison, name="Weezing", front_image="images/weezing_front.png", back_image="images/weezing_back.png")
         self.move1 = sludge_wave
         self.move2 = flamethrower
         self.move3 = thunderbolt
@@ -1878,7 +1877,7 @@ class Chansey(Pokemon):
 class Blissey(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=71, attack=3, defense=3, special_attack=21, special_defense=37, speed=15,
-        ptype1=Normal, name="Blissey", front_image="images/Blissey_front.png", back_image="images/Blissey_back.png")
+        ptype1=Normal, name="Blissey", front_image="images/blissey_front.png", back_image="images/blissey_back.png")
         self.move1 = hyper_voice
         self.move2 = ice_beam
         self.move3 = thunderbolt
@@ -1938,7 +1937,7 @@ class Horsea(Pokemon):
 class Seadra(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=19, attack=22, defense=32, special_attack=32, special_defense=16, speed=29,
-        ptype1=Water, name="Seadra", front_image="images/Seadra_front.png", back_image="images/Seadra_back.png")
+        ptype1=Water, name="Seadra", front_image="images/seadra_front.png", back_image="images/seadra_back.png")
         self.move1 = surf
         self.move2 = ice_beam
         self.move3 = hidden_power_ground
@@ -1950,7 +1949,7 @@ class Seadra(Pokemon):
 class Kingdra(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=22, attack=26, defense=26, special_attack=26, special_defense=26, speed=24,
-        ptype1=Water, name="Kingdra", front_image="images/Kingdra_front.png", back_image="images/Kingdra_back.png", ptype2=Dragon)
+        ptype1=Water, name="Kingdra", front_image="images/kingdra_front.png", back_image="images/kingdra_back.png", ptype2=Dragon)
         self.move1 = surf
         self.move2 = ice_beam
         self.move3 = hidden_power_ground
@@ -1974,7 +1973,7 @@ class Goldeen(Pokemon):
 class Seaking(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=27, attack=31, defense=21, special_attack=21, special_defense=26, speed=23,
-        ptype1=Water, name="Seaking", front_image="images/Seaking_front.png", back_image="images/Seaking_back.png")
+        ptype1=Water, name="Seaking", front_image="images/seaking_front.png", back_image="images/seaking_back.png")
         self.move1 = aqua_tail
         self.move2 = drill_run
         self.move3 = megahorn
@@ -2222,7 +2221,7 @@ class Vaporeon(Pokemon):
 class Jolteon(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=19, attack=19, defense=17, special_attack=31, special_defense=27, speed=37,
-        ptype1=Electric, name="Jolteon", front_image="images/Jolteon_front.png", back_image="images/Jolteon_back.png")
+        ptype1=Electric, name="Jolteon", front_image="images/jolteon_front.png", back_image="images/jolteon_back.png")
         self.move1 = thunderbolt
         self.move2 = signal_beam
         self.move3 = hidden_power_grass
@@ -2234,7 +2233,7 @@ class Jolteon(Pokemon):
 class Flareon(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=19, attack=37, defense=17, special_attack=27, special_defense=31, speed=19,
-        ptype1=Fire, name="Flareon", front_image="images/Flareon_front.png", back_image="images/Flareon_back.png")
+        ptype1=Fire, name="Flareon", front_image="images/flareon_front.png", back_image="images/flareon_back.png")
         self.move1 = fire_fang
         self.move2 = heat_wave
         self.move3 = iron_tail
@@ -2246,7 +2245,7 @@ class Flareon(Pokemon):
 class Espeon(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=19, attack=19, defense=17, special_attack=37, special_defense=27, speed=31,
-        ptype1=Psychic, name="Espeon", front_image="images/Espeon_front.png", back_image="images/Espeon_back.png")
+        ptype1=Psychic, name="Espeon", front_image="images/espeon_front.png", back_image="images/espeon_back.png")
         self.move1 = psychic
         self.move2 = dazzling_gleam
         self.move3 = shadow_ball
@@ -2258,7 +2257,7 @@ class Espeon(Pokemon):
 class Umbreon(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=27, attack=19, defense=31, special_attack=17, special_defense=37, speed=19,
-        ptype1=Dark, name="Umbreon", front_image="images/Umbreon_front.png", back_image="images/Umbreon_back.png")
+        ptype1=Dark, name="Umbreon", front_image="images/umbreon_front.png", back_image="images/umbreon_back.png")
         self.move1 = bite
         self.move2 = iron_tail
         self.move3 = hidden_power_ground
@@ -2270,7 +2269,7 @@ class Umbreon(Pokemon):
 class Leafeon(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=19, attack=31, defense=37, special_attack=17, special_defense=19, speed=27,
-        ptype1=Grass, name="Leafeon", front_image="images/Leafeon_front.png", back_image="images/Leafeon_back.png")
+        ptype1=Grass, name="Leafeon", front_image="images/leafeon_front.png", back_image="images/leafeon_back.png")
         self.move1 = leaf_blade
         self.move2 = iron_tail
         self.move3 = hidden_power_ground
@@ -2282,7 +2281,7 @@ class Leafeon(Pokemon):
 class Glaceon(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=19, attack=17, defense=31, special_attack=37, special_defense=27, speed=19,
-        ptype1=Ice, name="Glaceon", front_image="images/Glaceon_front.png", back_image="images/Glaceon_back.png")
+        ptype1=Ice, name="Glaceon", front_image="images/glaceon_front.png", back_image="images/glaceon_back.png")
         self.move1 = ice_beam
         self.move2 = shadow_ball
         self.move3 = hidden_power_ground
@@ -2355,7 +2354,7 @@ class Omastar(Pokemon):
 class Kabuto(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=13, attack=34, defense=38, special_attack=23, special_defense=19, speed=23,
-        ptype1=Rock, name="Kabuto", front_image="images/Kabuto_front.png", back_image="images/Kabuto_back.png", ptype2=Water)
+        ptype1=Rock, name="Kabuto", front_image="images/kabuto_front.png", back_image="images/kabuto_back.png", ptype2=Water)
         self.move1 = waterfall
         self.move2 = rock_slide
         self.move3 = ice_beam
@@ -2367,7 +2366,7 @@ class Kabuto(Pokemon):
 class Kabutops(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=18, attack=35, defense=32, special_attack=20, special_defense=21, speed=24,
-        ptype1=Rock, name="Kabutops", front_image="images/Kabutops_front.png", back_image="images/Kabutops_back.png", ptype2=Water)
+        ptype1=Rock, name="Kabutops", front_image="images/kabutops_front.png", back_image="images/kabutops_back.png", ptype2=Water)
         self.move1 = aqua_tail
         self.move2 = stone_edge
         self.move3 = ice_beam
@@ -2443,7 +2442,7 @@ class Articuno(Pokemon):
 class Zapdos(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=23, attack=23, defense=22, special_attack=33, special_defense=23, speed=26,
-        ptype1=Electric, name="Zapdos", front_image="images/Zapdos_front.png", back_image="images/Zapdos_back.png", ptype2=Flying)
+        ptype1=Electric, name="Zapdos", front_image="images/zapdos_front.png", back_image="images/zapdos_back.png", ptype2=Flying)
         self.move1 = thunderbolt
         self.move2 = air_cutter
         self.move3 = heat_wave
@@ -2455,7 +2454,7 @@ class Zapdos(Pokemon):
 class Moltres(Pokemon):
     def __init__(self):
         Pokemon.__init__(self, health=23, attack=26, defense=23, special_attack=33, special_defense=22, speed=23,
-        ptype1=Fire, name="Moltres", front_image="images/Moltres_front.png", back_image="images/Moltres_back.png", ptype2=Flying)
+        ptype1=Fire, name="Moltres", front_image="images/moltres_front.png", back_image="images/moltres_back.png", ptype2=Flying)
         self.move1 = flamethrower
         self.move2 = hurricane
         self.move3 = ancient_power
