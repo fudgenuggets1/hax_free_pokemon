@@ -87,6 +87,7 @@ class Game():
 	stealth_rock_sprite = pygame.image.load("images/stealth_rock.png")
 	spike_sprite = pygame.image.load('images/triangle.png')
 	damage_list = []
+	new_y = 90
 
 	@staticmethod
 	def update(screen):
@@ -338,6 +339,7 @@ class Game():
 			Game.turn_logged = False
 			Game.stop_that = False
 			Game.damage_list[:] = []
+			Game.new_y = 90
 		# Check if a pokemon on the battlefield has fainted
 		if math.floor(Game.current_pokemon.current_health) <= 0 or math.floor(Game.opponent.pokemon.current_health) <= 0:
 			Game.Pokemon_Fainted = True
@@ -356,11 +358,13 @@ class Game():
 			Game.pause = True
 			if Game.current_pokemon.fainted and not Game.opponent.pokemon.fainted:
 				if not Game.stop_that:	
-					dead_text = ("%s died!" % Game.current_pokemon.name, 150, Game.text_y, 25, RED)
+					dead_text = ("%s died!" % Game.current_pokemon.name, Game.new_y, RED)
+					Game.new_y += 35
 					Game.battle_text[Game.current_turn - 1].add(dead_text)
 					Game.stop_that = True
 			elif Game.opponent.pokemon.fainted and not Game.current_pokemon.fainted:
-				dead_text = ("%s died!" % Game.opponent.pokemon.name, 150, Game.text_y, 25, BLUE)
+				dead_text = ("%s died!" % Game.opponent.pokemon.name, Game.new_y, BLUE)
+				Game.new_y += 35
 				Game.battle_text[Game.current_turn - 1].add(dead_text)
 				if not Game.switching:
 					Game.switch_opponent(True)
@@ -369,18 +373,28 @@ class Game():
 					Game.going_to_switch = True
 
 			elif Game.current_pokemon.fainted and Game.opponent.pokemon.fainted:
-				dead_text = ("%s died!" % Game.current_pokemon.name, 150, Game.text_y+35, 25, RED)
+				dead_text = ("%s died!" % Game.current_pokemon.name, 150, Game.new_y+35, 25, RED)
 				Game.battle_text[Game.current_turn - 1].add(dead_text)
-				dead_text = ("%s died!" % Game.opponent.pokemon.name, 150, Game.text_y, 25, BLUE)
+				dead_text = ("%s died!" % Game.opponent.pokemon.name, 150, Game.new_y, BLUE)
 				Game.battle_text[Game.current_turn - 1].add(dead_text)
+				Game.new_y += 70
 
 		# Show specific turn info on the side
 		if Game.current_turn > 0:
+
 			for item in Game.battle_text[Game.turn_index]:
+				
+
+
 				try:
-					Functions.text_to_screen(screen, item[0], 800, item[2], 20, item[4])
+					Functions.text_to_screen(screen, item[0], 800, item[1], 20, item[2])
+					#Functions.text_to_screen(screen, item[0], 800, item[1], 20)
+					
 				except:
-					print item
+
+					pass
+					print(item)
+
 			Game.current_sprites = Game.battle_sprites[Game.turn_index+1]
 				
 
@@ -606,7 +620,7 @@ class Game():
 		if type_advantage != 1:
 			text.append(type_advantage_text)
 		for item in text:
-			Game.current_turn_text.add((item[0], item[1], item[2], 20, color))
+			Functions.text_to_list(item, color)
 		attacker.first_turn = False
 		Game.text_y += 70
 
@@ -787,7 +801,7 @@ class Game():
 		["Go %s!" % new.name, 375, y+35]
 		]
 		for item in text:
-			Game.current_turn_text.add((item[0], item[1], item[2], 20, color))
+			Functions.text_to_list(item, color)
 		new.first_turn = True
 		Game.switching = False
 		Game.text_y += 35
@@ -804,9 +818,9 @@ class Game():
 			new = Game.Pokemon_Party[pokemon_number]
 			new_number = Game.Pokemon_List.index(new)
 			Game.current_pokemon_number = new_number
-			text = ("Go %s" % new.name, 150, Game.text_y, 20, GREEN)
+			text = ("Go %s" % new.name, Game.new_y, GREEN)
 			Game.battle_text[Game.current_turn - 1].add(text)
-			Game.current_turn_text.add(text)
+			Functions.text_to_list(text)
 			Game.entry_hazard_damage(new, Game.player_field)
 			Game.Pokemon_Fainted = False
 			Game.show_party = False
@@ -840,8 +854,8 @@ class Game():
 				Game.current_opponent_number = new_number
 			
 				Game.text_y += 35
-				text = ("Go %s" % new.name, 150, Game.text_y, 20, YELLOW)
-				Game.current_turn_text.add(text)
+				text = ("Go %s" % new.name, Game.new_y, YELLOW)
+				Functions.text_to_list(text)
 				Game.battle_text[Game.current_turn - 1].add(text)
 
 				Game.entry_hazard_damage(new, Game.opponent_field)
@@ -857,7 +871,7 @@ class Game():
 		if next_turn:
 			Game.turn_index = Game.current_turn	
 			Game.current_turn += 1
-			turn_number = ("Turn %s" % Game.current_turn, 800, 40, 30, (255,255,255))
+			turn_number = ("Turn %s" % Game.current_turn, 40, (255,255,255))
 			Game.turn_text.add(turn_number)
 			Game.battle_text.append(Game.turn_text)
 			Game.turn_logged = True
@@ -888,32 +902,36 @@ class Game():
 					Game.attack(attacker, defender, move, y)
 					if defender.current_health > 0 and not isinstance(defender_move, int):
 						flinch_text = ("%s flinched!" % defender.name, 375, y+110, 25, DARK_RED)
-						Game.current_turn_text.add(flinch_text)	
+						
+						Functions.text_to_list(flinch_text)
 						can_move = False
 				else:
 					flinch_text = ("%s used %s..." % (attacker.name, move.name), 375, y, 25, attacker_color)
 					flinch_text2 = ("But it failed!", 375, y+35, 25, attacker_color)
-					Game.current_turn_text.add(flinch_text2)
-					Game.current_turn_text.add(flinch_text)
+				
+					Functions.text_to_list(flinch_text)
+					Functions.text_to_list(flinch_text2)
 			elif move.effect == "sucker_punch":
 				if isinstance(defender_move, int):
 					sucker_text = ("%s used %s..." % (attacker.name, move.name), 375, y, 25, attacker_color)
 					sucker_text2 = ("But it failed!", 375, y+35, 25, attacker_color)
-					Game.current_turn_text.add(sucker_text)
-					Game.current_turn_text.add(sucker_text2)
+					
+					Functions.text_to_list(sucker_text)
+					Functions.text_to_list(sucker_text2)
 				else:
 					Game.attack(attacker, defender, move, y)
 				Game.text_y -= 70
 			elif move.effect == "recoil":
 				damage = Game.attack(attacker, defender, move, y)
-				Game.text_y -= 35
 				if damage != None:	
 					recoil_damage = math.floor(damage/3)
 					attacker.current_health -= recoil_damage
 					recoil_text = ("%s was hurt by recoil!" % attacker.name, 375, y+105, 25, attacker_color)
-					Game.current_turn_text.add(recoil_text)
+				
+					Functions.text_to_list(recoil_text)
+					Game.text_y += 35
 				if attacker.current_health <= 0:
-					attacker.current_health = 0 
+					attacker.current_health = 0
 			elif move.effect == "drain":
 				damage = Game.attack(attacker, defender, move, y)
 				Game.text_y -= 35
@@ -921,7 +939,8 @@ class Game():
 					drain_damage = math.floor(damage/2)
 					attacker.current_health += drain_damage
 					drain_text = ("%s drained some health!" % attacker.name, 375, y+105, 25, GREEN)
-					Game.current_turn_text.add(drain_text)
+					
+					Functions.text_to_list(drain_text)
 				if attacker.current_health > attacker.max_health:
 					attacker.current_health = attacker.max_health
 			elif move.effect == "switch":
@@ -953,12 +972,12 @@ class Game():
 		elif pokemon == Game.opponent.pokemon:
 			field = Game.player_field
 		text = ("%s used %s!" % (pokemon.name, move.name), 375, y, 25, color)
-		Game.current_turn_text.add(text)
+		Functions.text_to_list(text)
 		Game.text_y += 35
 		if move.effect == "stealth rock":
 			if field["stealth rock"]:
 				failed_text = ("But it failed!", 375, y+35, 25, YELLOW)
-				Game.current_turn_text.add(failed_text)
+				Functions.text_to_list(failed_text)
 				Game.text_y += 35
 			field["stealth rock"] = True
 		elif move.effect == "spikes":
@@ -966,7 +985,7 @@ class Game():
 				field["spikes"] += 1
 			else:
 				failed_text = ("But it failed!", 375, y+35, 25, YELLOW)
-				Game.current_turn_text.add(failed_text)
+				Functions.text_to_list(failed_text)
 				Game.text_y += 35
 			
 		return can_move
@@ -1001,7 +1020,7 @@ class Game():
 			damage = math.floor(percent * TA)
 			switch.current_health -= damage
 			text = ("%s was hurt by Stealth Rock!" % switch.name, 150, Game.text_y, 20, YELLOW)
-			Game.current_turn_text.add(text)
+			Functions.text_to_list(text)
 			Game.battle_text[Game.current_turn - 1].add(text)
 		if field["spikes"] > 0 and (switch.type != Flying and switch.type2 != Flying):
 			Game.text_y += 35
@@ -1011,7 +1030,7 @@ class Game():
 				percent = math.floor(switch.max_health * 0.25)
 			switch.current_health -= percent
 			text = ("%s was hurt by Spikes!" % switch.name, 150, Game.text_y, 20, YELLOW)
-			Game.current_turn_text.add(text)
+			Functions.text_to_list(text)
 			Game.battle_text[Game.current_turn - 1].add(text)
 
 	@staticmethod
@@ -1028,7 +1047,7 @@ class Game():
 				if pokemon.current_health > pokemon.max_health:
 					pokemon.current_health = pokemon.max_health
 				gained_text = ("%s ate some Leftovers" % pokemon.name, 375, Game.text_y, 25, color)
-				Game.current_turn_text.add(gained_text)
+				Functions.text_to_list(gained_text)
 				Game.text_y += 35
 		Game.log_turn(False)
 
