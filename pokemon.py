@@ -2996,7 +2996,7 @@ Opponent.All_Pokemon = [
 ]
 
 # Player teams
-test_team = Team([kangaskhan, chikorita, raticate, cleffa, starmie])
+test_team = Team([cloyster, chikorita, raticate, cleffa, starmie])
 
 ezpz_team = Team([machamp, slowpoke, kangaskhan, magnemite, abra])
 first_tean = Team([squirtle, chikorita, charmander, jynx, pikachu])

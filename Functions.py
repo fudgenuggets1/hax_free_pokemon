@@ -14,12 +14,15 @@ def text_to_screen(screen, text, x, y, size = 25,
 def text_to_list(text_list, color=(255,255,255)):
 	from game import Game
 
-	text = text_list[0]
-
 	try:
-		Game.current_turn_text.add((text, Game.new_y, text_list[4]))
+		text = (text_list[0], Game.new_y, text_list[4])
+		Game.current_turn_text.add(text)
+		Game.battle_text[Game.current_turn - 1].add(text)
 	except:
-		Game.current_turn_text.add((text, Game.new_y, color))
+		Game.current_turn_text.add((text_list[0], Game.new_y, color))
+		if Game.battle_text:	
+			Game.battle_text[Game.current_turn - 1].add((text_list[0], Game.new_y, color))
+			
 	Game.new_y += 35
 	
 		
